@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <title>Falcons and Hawks of Pennsylvania</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" 
+        integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" 
+        crossorigin="anonymous">
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+        integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+        crossorigin="" />
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,400;0,800;1,800&display=swap"
+        rel="stylesheet" />
+    <link href="styles.css" rel="stylesheet" />
+   
+</head>
+
+<body>
+    <div class="container-fluid">
+        <header class="row bg-dark text-white py-3">
+            <div class="col">
+                <h1>Falcons and Hawks of Pennsylvania</h1>
+                <h2>A guide and map of sightings</h2>
+            </div>
+        </header>
+
+        <section class="row">
+            <div class="col-sm-8 order-md-2 px-0">
+                <div id="map"></div>
+            </div>
+            <aside id="about" class="col-sm-4 order-md-1 text-white py-2 pl-3 bg-secondary overflow-auto">
+                <section>
+                    <button id="geolocate-ui">Sightings near me</button>
+                    <div class='mt-1' id="locateFeedback"></div>
+                </section>
+            </aside>
+            
+           
+        </section>
+        
+        <section class="row">
+            <div class="order-md-2 px-0">
+                <div id="guide col-12">
+                    <h2>Guide title</h2>
+                    <div class="form-group mr-3 mt-3 col-lg-6" id="dropdown-ui">Species
+                        <select class="form-control">
+                            
+                            <option value="rethaw" selected>Red Tailed Hawk</option>
+                            <option value="baleag">Bald Eagle</option>
+                            
+                        </select>
+                    </div>
+                    
+                </div>
+            </div>
+           
+        </section>
+
+        <footer class="row bg-dark text-white py-1 px-2 fixed-bottom">
+            <div class="col">
+                <ul class="list-unstyled">
+                    <li>
+                        Data source:
+                        <a href="https://science.ebird.org/en/pa/use-ebird-data">Ebird.org
+                            API</a>
+                    </li>
+                </ul>
+            </div>
+        </footer>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" 
+        integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" 
+        crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
+        integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
+        crossorigin=""></script>
+    <script src="js/data.js"></script>
+    <script src="js/script.js"></script>
+    <script>
+        createMap();
+
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(function (x) {
+                console.log(x);
+                a.location.current = [x.coords.latitude, x.coords.longitude];
+               
+                console.log(a)
+            }, function (y) {
+                console.log(y);
+            }, {
+                enableHighAccuracy: true,
+                maximumAge: 0,
+            });
+        } else {
+            console.log("Geolocation is not supported by this browser.");
+        }
+
+        getData();  
+        updateData();   
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,142 @@
+body {
+    margin: 0;
+    padding: 0;
+    background-color: #333;
+    font-family: "Open sans", sans-serif;
+    font-weight: 300;
+    font-size: 100%;
+}
+
+h1 {
+    font-weight: 700;
+    font-size: calc(1.5rem + ((100vw – 400) / 400));
+    color: "#2e2e2e";
+    letter-spacing: 0.02em;
+    margin: 5px 0;
+}
+
+h2 {
+    font-weight: 500;
+    font-size: 2.3em;
+    letter-spacing: 0.04em;
+    text-decoration: none;
+    margin: 5px 0;
+    display: none;
+}
+
+h3 {
+    font-size: 1.5em;
+    margin-bottom: 5px;
+}
+
+
+a {
+    color: #93c3ee;
+    font-weight: 400;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+ul {
+    padding: 0px 20px 4px 20px;
+    font-size: 1.1em;
+    line-height: 1.2em;
+    color: #63666a;
+}
+
+li {
+    margin: 10px 0;
+}
+
+#map {
+    height: calc(60vh);
+    background: #3f3f3f;
+}
+
+#guide\ col-12 {
+    margin: 20px 30px 20px 30px;
+}
+
+header {
+    height: 100px;
+}
+
+footer {
+    height: 50px;
+    background-color: #262527;
+    font-size: 0.7rem;
+}
+
+aside {
+    height: calc(40vh - 130px);
+}
+
+.container-fluid {
+    background-color: #333;
+}
+
+/* Landscape devices all scenarios */
+@media (orientation: landscape) {
+    aside {
+        display: block;
+        height: calc(100vh - 130px);
+    }
+
+    #map {
+        height: calc(100vh - 130px);
+    }
+}
+
+/* Small devices (landscape phones, 576px and up) */
+@media (min-width: 576px) {
+    aside {
+        display: block;
+        height: calc(100vh - 130px);
+    }
+
+    #map {
+        height: calc(100vh - 130px);
+    }
+}
+
+/* Medium devices (tablets, 768px and up) */
+@media (min-width: 768px) {
+    aside {
+        display: block;
+        height: calc(100vh - 160px);
+    }
+
+    #map {
+        height: calc(100vh - 160px);
+    }
+
+    header {
+        height: 130px;
+    }
+
+    footer {
+        height: 60px;
+        font-size: 1rem;
+    }
+
+    h1 {
+        font-size: 2.8em;
+    }
+
+    h2 {
+        display: inline;
+    }
+
+    #dropdown-ui {
+        height: 200px;
+    }
+}
+
+/* Large devices (desktops, 992px and up) */
+@media (min-width: 992px) {}
+
+/* Extra large devices (large desktops, 1200px and up) */
+@media (min-width: 1200px) {}
