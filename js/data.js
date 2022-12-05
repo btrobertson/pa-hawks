@@ -2,9 +2,7 @@ const a = {
     data: {},
     location: {
         feedBack: '#locateFeedback',
-        target: [38.0380543, -84.5048104],
-        info: {},
-        weather: {},
+        target: [40.02765615977412, -75.18601583979795],
     },
     map: {
         div: "map",

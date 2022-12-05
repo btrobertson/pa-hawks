@@ -6,7 +6,10 @@ function createMap() {
     a.map.placed = L.map(a.map.div, a.map.options);
     new L.control.zoom(a.map.zoomOptions).addTo(a.map.placed);
     L.tileLayer(a.tiles.url, a.tiles.options).addTo(a.map.placed);
-    locateUI();
+   // locateUI();
+    getCountyData();
+    getSpeciesData();
+ 
 }
 
 function locateUI() {
@@ -118,7 +121,7 @@ function processData(data) {
     }
 
     a.data.birds = birdData;
-    console.log(a.data.birds);
+   // console.log(a.data.birds);
 }
 
 function displayBirds() {
@@ -133,3 +136,102 @@ function displayBirds() {
     }
 
 }
+
+function getCountyData() {
+
+    fetch("data/Pennsylvania_County_Boundaries.geojson")
+        .then(function (response) {
+            return response.json();
+        })
+        .then(function (counties) {   
+            a.data.counties = counties;  
+        })
+                
+        .catch(function (error) {
+            console.log(`Ruh roh! An error has occurred`, error);
+        }); // end fetch and promise chain
+        
+}
+
+function getSpeciesData() {
+    fetch("data/broad-wing_2022_counts.geojson")
+        .then(function(data){
+            return data.json();
+        })
+        .then(function(data) {
+            a.data.bw = data;
+           
+            processFileData();
+        })
+        .catch(function (error) {
+            console.log(`Ruh roh! An error has occurred`, error);
+        }); // end fetch and promise chain
+
+            
+
+}
+
+function processFileData() {
+   
+    
+    const counts = [];
+    a.data.bw.features.forEach(function(county) {
+        counts.push(Number(county.properties.NUMPOINTS));       
+    });
+      console.log(counts);
+      var breaks = chroma.limits(counts, 'q', 5);
+
+      var colorize = chroma.scale(chroma.brewer.OrRd)
+                           .classes(breaks)
+                           .mode('lab'); 
+                           
+    drawMap(colorize);
+}
+
+function drawMap(colorize) {
+    console.log('after: ', a.data.bw);
+    const dataLayer = L.geoJson(a.data.bw, {
+        style: function (feature) {
+          return {
+            color: "black",
+            weight: 1,
+            fillOpacity: 1,
+            fillColor: "#1f78b4"
+          };
+        },
+        onEachFeature: function(feature, layer) {
+					layer.on("mouseover", function() {
+						layer
+							.setStyle({
+								color: "#ffcc00",
+                weight: 2
+							})
+             .bringToFront();
+					});
+
+					layer.on("mouseout", function() {
+						layer.setStyle({
+							color: "black",
+              weight: 1
+						});
+					});
+				}
+      }).addTo(a.map.placed);
+      updateMap(dataLayer, colorize);
+}
+
+function updateMap(dataLayer, colorize) {
+    dataLayer.eachLayer(function(layer) {
+      const props = layer.feature.properties;
+      layer.setStyle({
+        fillColor: colorize(Number(props.NUMPOINTS))
+      });
+      let tooltipInfo = `<b>${props.NUMPOINTS}</b></br><b></b>`;
+              
+              
+              layer.bindTooltip(tooltipInfo, {
+                  sticky: true,
+              });
+    });
+   // map.dragging.enable();
+  } // end updateMap()
