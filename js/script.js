@@ -1,22 +1,26 @@
-const birds = ['rethaw', 'baleag', 'amekes', 'coohaw', 'shshaw', 'perfal', 'reshaw', 'norgos', 'merlin', 'norhar2', 'rolhaw', 'redcro', 'goleag'];
-
+//const birds = ['rethaw', 'baleag', 'amekes', 'coohaw', 'shshaw', 'perfal', 'reshaw', 'norgos', 'merlin', 'norhar2', 'rolhaw', 'redcro', 'goleag'];
+const birds = ['rethaw', 'amekes', 'coohaw', 'norhar2'];
 
 
 function createMap() {
     a.map.placed = L.map(a.map.div, a.map.options);
     new L.control.zoom(a.map.zoomOptions).addTo(a.map.placed);
     L.tileLayer(a.tiles.url, a.tiles.options).addTo(a.map.placed);
-   // locateUI();
+    locateUI();
     getCountyData();
-    getSpeciesData();
- 
+    getBirds(birds[0])
+    
 }
 
 function locateUI() {
     a.buttons.locate.placed = document.querySelector(a.buttons.locate.id);
     a.location.info = document.querySelector(a.location.feedBack);
     a.buttons.locate.placed.addEventListener("click", function() {
+        
+        clearMap();  
         geoLocate();
+        getData();  
+        updateData();
     });
 }
 
@@ -70,8 +74,9 @@ function updateData() {
     const dropdown = document.querySelector('#dropdown-ui select');
     dropdown.addEventListener('change', function(e) {
         let species = e.target.value;
-        getData(species)
-      //  console.log(species);
+        console.log(species);
+        getBirds(species);
+        
     });
 }
 
@@ -153,29 +158,35 @@ function getCountyData() {
         
 }
 
-function getSpeciesData() {
-    fetch("data/broad-wing_2022_counts.geojson")
+function getBirds(species) {
+    console.log(species)
+    if(species == null) {
+        species = "rethaw";
+    }
+    fname = hawks[species].file;
+    getSpeciesData(fname, species);   
+}
+
+function getSpeciesData(fname, code) {
+    
+    fetch(`data/${fname}`)
         .then(function(data){
             return data.json();
         })
         .then(function(data) {
-            a.data.bw = data;
-           
-            processFileData();
+            a.data[code] = data;
+            
+            processFileData(code);
         })
         .catch(function (error) {
             console.log(`Ruh roh! An error has occurred`, error);
         }); // end fetch and promise chain
 
-            
-
 }
 
-function processFileData() {
-   
-    
+function processFileData(code) {
     const counts = [];
-    a.data.bw.features.forEach(function(county) {
+    a.data[code].features.forEach(function(county) {
         counts.push(Number(county.properties.NUMPOINTS));       
     });
       console.log(counts);
@@ -185,12 +196,11 @@ function processFileData() {
                            .classes(breaks)
                            .mode('lab'); 
                            
-    drawMap(colorize);
+    drawMap(colorize, code);
 }
 
-function drawMap(colorize) {
-    console.log('after: ', a.data.bw);
-    const dataLayer = L.geoJson(a.data.bw, {
+function drawMap(colorize, code) {
+    const dataLayer = L.geoJson(a.data[code], {
         style: function (feature) {
           return {
             color: "black",
@@ -200,24 +210,25 @@ function drawMap(colorize) {
           };
         },
         onEachFeature: function(feature, layer) {
-					layer.on("mouseover", function() {
-						layer
-							.setStyle({
-								color: "#ffcc00",
-                weight: 2
-							})
-             .bringToFront();
-					});
+            layer.on("mouseover", function() {
+                layer
+                    .setStyle({
+                        color: "#ffcc00",
+                        weight: 2
+                    })
+                    .bringToFront();
+            });
 
-					layer.on("mouseout", function() {
-						layer.setStyle({
-							color: "black",
-              weight: 1
-						});
-					});
-				}
+            layer.on("mouseout", function() {
+                layer.setStyle({
+                    color: "black",
+                    weight: 1
+                });
+            });
+        }
       }).addTo(a.map.placed);
       updateMap(dataLayer, colorize);
+
 }
 
 function updateMap(dataLayer, colorize) {
@@ -235,3 +246,11 @@ function updateMap(dataLayer, colorize) {
     });
    // map.dragging.enable();
   } // end updateMap()
+
+  function clearMap() {
+    a.map.placed.eachLayer(function(layer) {
+       if(layer._leaflet_id != 26) {
+            a.map.placed.removeLayer(layer);
+       }
+    });
+  }

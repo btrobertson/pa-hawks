@@ -33,3 +33,27 @@ const a = {
     },
     
 };
+
+const hawks = 
+    {
+    norhar2: {
+        name: "Northern Harrier",
+        code: "norhar2",
+        file: "harrier_2022_counts.geojson"
+    },
+    rethaw: {
+        name: "Red-tailed Hawk",
+        code: "rethaw",
+        file: "red-tail_2022_counts.geojson",
+    },
+    amekes: {
+        name: "American Kestrel",
+        code: "amekes",
+        file: "kestrel_2022_counts.geojson",
+    },
+    coohaw: {
+        name: "Cooper's Hawk",
+        code: "coohaw",
+        file: "cooper_2022_counts.geojson",
+    },
+    }

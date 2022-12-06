@@ -47,11 +47,13 @@
             <div class="order-md-2 px-0">
                 <div id="guide col-12">
                     <h2>Guide title</h2>
-                    <div class="form-group mr-3 mt-3 col-lg-6" id="dropdown-ui">Species
+                    <div class="form-group mr-3 mt-3 col-lg-6"id="dropdown-ui">
                         <select class="form-control">
                             
                             <option value="rethaw" selected>Red Tailed Hawk</option>
-                            <option value="baleag">Bald Eagle</option>
+                            <option value="norhar2">Northern Harrier</option>
+                            <option value="amekes">American Kestrel</option>
+                            <option value="coohaw">Cooper's Hawk</option>
                             
                         </select>
                     </div>
@@ -94,8 +96,8 @@
     <script src="js/script.js"></script>
     <script>
         createMap();
-
-        /* if (navigator.geolocation) {
+       
+        if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(function (x) {
                 console.log(x);
                 a.location.current = [x.coords.latitude, x.coords.longitude];
@@ -108,10 +110,8 @@
             });
         } else {
             console.log("Geolocation is not supported by this browser.");
-        } */
-
-       // getData();  
-      //  updateData();   
+        }
+ 
     </script>
 </body>
 
