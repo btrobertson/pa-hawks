@@ -25,7 +25,7 @@
         <header class="row bg-dark text-white py-3">
             <div class="col">
                 <h1>Falcons and Hawks of Pennsylvania</h1>
-                <h2>A guide and map of Observations</h2>
+                
             </div>
         </header>
 
@@ -33,7 +33,17 @@
             <div class="col-sm-8 order-md-2 px-0">
                 <div id="map"></div>
             </div>
-            <aside id="about" class="col-sm-4 order-md-1 text-white py-2 pl-3 bg-secondary overflow-auto">
+            <aside id="about" class="col-sm-4 order-md-2 text-white py-2 pl-3 bg-secondary overflow-auto">
+                <div class="form-group mr-3 mt-3 col-lg-6" id="dropdown-ui">
+                    <select class="form-control">
+                        
+                        <option value="rethaw" selected>Red Tailed Hawk</option>
+                        <option value="norhar2">Northern Harrier</option>
+                        <option value="amekes">American Kestrel</option>
+                        <option value="coohaw">Cooper's Hawk</option>
+                        
+                    </select>
+                </div>
                 <section>
                     <button id="geolocate-ui">View recent observations near you</button>
                     <div class='mt-1' id="locateFeedback"></div>
@@ -46,17 +56,8 @@
         <section class="row">
             <div class="order-md-2 px-0">
                 <div id="guide col-12">
-                    <h2>Guide title</h2>
-                    <div class="form-group mr-3 mt-3 col-lg-6" id="dropdown-ui">
-                        <select class="form-control">
-                            
-                            <option value="rethaw" selected>Red Tailed Hawk</option>
-                            <option value="norhar2">Northern Harrier</option>
-                            <option value="amekes">American Kestrel</option>
-                            <option value="coohaw">Cooper's Hawk</option>
-                            
-                        </select>
-                    </div>
+                    <h2>A guide to selected species</h2>
+                    
                     
                 </div>
             </div>

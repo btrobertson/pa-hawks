@@ -113,10 +113,6 @@ aside {
         height: calc(100vh - 160px);
     }
 
-    header {
-        height: 130px;
-    }
-
     footer {
         height: 60px;
         font-size: 1rem;
@@ -131,7 +127,7 @@ aside {
     }
 
     #dropdown-ui {
-        height: 200px;
+        margin-bottom: 20px;
     }
 }
 

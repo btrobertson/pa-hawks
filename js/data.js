@@ -9,8 +9,8 @@ const a = {
         options: {
             zoomSnap: 0.1,
             zoomControl: false,
-            zoom: 6,
-            center: [40.02765615977412, -75.18601583979795],
+            zoom: 7,
+            center: [40.854673821881114, -77.68387082785095],
         },
         fitOptions: {
             padding: [20, 20],
