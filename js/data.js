@@ -56,4 +56,14 @@ const hawks =
         code: "coohaw",
         file: "cooper_2022_counts.geojson",
     },
+    shshaw: {
+        name: "Sharp-shinned Hawk",
+        code: "shshaw",
+        file: "sharp-shinned_2022_counts.geojson",
+    },
+    perfal: {
+        name: "Peregrine Falcon",
+        code: "perfal",
+        file: "perfal_2022_counts.geojson",
+    },
     }
