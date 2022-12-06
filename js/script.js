@@ -153,7 +153,7 @@ function getCountyData() {
         })
                 
         .catch(function (error) {
-            console.log(`Ruh roh! An error has occurred`, error);
+            console.log(`An error has occurred`, error);
         }); // end fetch and promise chain
         
 }
@@ -179,7 +179,7 @@ function getSpeciesData(fname, code) {
             processFileData(code);
         })
         .catch(function (error) {
-            console.log(`Ruh roh! An error has occurred`, error);
+            console.log(`An error has occurred`, error);
         }); // end fetch and promise chain
 
 }
@@ -187,7 +187,8 @@ function getSpeciesData(fname, code) {
 function processFileData(code) {
     const counts = [];
     a.data[code].features.forEach(function(county) {
-        counts.push(Number(county.properties.NUMPOINTS));       
+        counts.push(Number(county.properties.NUMPOINTS));
+        //counts.push(Number(county.properties.NUMPOINTS/county.properties.SHAPE_Area));       
     });
       console.log(counts);
       var breaks = chroma.limits(counts, 'q', 5);
@@ -228,7 +229,6 @@ function drawMap(colorize, code) {
         }
       }).addTo(a.map.placed);
       updateMap(dataLayer, colorize);
-
 }
 
 function updateMap(dataLayer, colorize) {
