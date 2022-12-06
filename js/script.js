@@ -1,6 +1,6 @@
 //const birds = ['rethaw', 'baleag', 'amekes', 'coohaw', 'shshaw', 'perfal', 'reshaw', 'norgos', 'merlin', 'norhar2', 'rolhaw', 'redcro', 'goleag'];
 const birds = ['rethaw', 'amekes', 'coohaw', 'norhar2'];
-
+//const birds = ['coohaw'];
 
 function createMap() {
     a.map.placed = L.map(a.map.div, a.map.options);
@@ -186,10 +186,16 @@ function getSpeciesData(fname, code) {
 
 function processFileData(code) {
     const counts = [];
+    let sum = 0;
     a.data[code].features.forEach(function(county) {
         counts.push(Number(county.properties.NUMPOINTS));
-        //counts.push(Number(county.properties.NUMPOINTS/county.properties.SHAPE_Area));       
+        sum = sum + county.properties.NUMPOINTS;
+        //counts.push(Number(county.properties.NUMPOINTS/county.properties.area));       
     });
+
+    for(i=0; i<counts; i++) {
+        counts[i] = counts[i]/sum;
+    }
       console.log(counts);
       var breaks = chroma.limits(counts, 'q', 5);
 
