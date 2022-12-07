@@ -56,13 +56,23 @@ li {
     background: #3f3f3f;
 }
 
-#guide\ col-12 {
-    margin: 20px 30px 20px 30px;
+#geolocate-ui {
+    border-radius: 8px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    width: 100%;
 }
 
-header {
-    height: 100px;
+#dropdown-ui {
+    width: 100%;
 }
+
+#bird-img img {
+    width: 100%;
+}
+/* header {
+    height: 100px;
+} */
 
 footer {
     height: 50px;
@@ -71,7 +81,8 @@ footer {
 }
 
 aside {
-    height: calc(40vh - 130px);
+    height: calc(40vh - 50px);
+    background-color: #32814c;
 }
 
 .container-fluid {
@@ -82,11 +93,11 @@ aside {
 @media (orientation: landscape) {
     aside {
         display: block;
-        height: calc(100vh - 130px);
+        height: calc(100vh - 50px);
     }
 
     #map {
-        height: calc(100vh - 130px);
+        height: calc(100vh - 50px);
     }
 }
 
@@ -94,11 +105,11 @@ aside {
 @media (min-width: 576px) {
     aside {
         display: block;
-        height: calc(100vh - 130px);
+        height: calc(100vh - 50px);
     }
 
     #map {
-        height: calc(100vh - 130px);
+        height: calc(100vh - 50px);
     }
 }
 
@@ -106,11 +117,13 @@ aside {
 @media (min-width: 768px) {
     aside {
         display: block;
-        height: calc(100vh - 160px);
+        height: calc(100vh - 60px);
+       
     }
 
     #map {
-        height: calc(100vh - 160px);
+        height: calc(100vh - 60px);
+     
     }
 
     footer {

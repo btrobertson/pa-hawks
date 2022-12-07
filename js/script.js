@@ -1,6 +1,6 @@
 //const birds = ['rethaw', 'baleag', 'amekes', 'coohaw', 'shshaw', 'perfal', 'reshaw', 'norgos', 'merlin', 'norhar2', 'rolhaw', 'redcro', 'goleag'];
-const birds = ['rethaw', 'amekes', 'coohaw', 'norhar2', 'shshaw', 'perfal'];
-//const birds = ['coohaw'];
+//const birds = ['rethaw', 'amekes', 'coohaw', 'norhar2', 'shshaw', 'perfal'];
+const birds = ['coohaw', 'rethaw'];
 
 function createMap() {
     a.map.placed = L.map(a.map.div, a.map.options);
@@ -8,8 +8,8 @@ function createMap() {
     L.tileLayer(a.tiles.url, a.tiles.options).addTo(a.map.placed);
     locateUI();
     getCountyData();
-    getBirds(birds[0])
-    
+    getBirds(birds[0]);
+    loadImage(birds[0]);
 }
 
 function locateUI() {
@@ -64,8 +64,8 @@ function geoLocate() {
 
 function drawMapOnLocation() {
     L.marker(a.location.center).addTo(a.map.placed);
-    console.log(a.location.center);
-    a.map.placed.setView(a.location.center, a.map.options.zoom + 4);
+   // console.log(a.location.center);
+    a.map.placed.setView(a.location.center, a.map.options.zoom + 3);
     getData();
 
 }
@@ -74,7 +74,8 @@ function updateData() {
     const dropdown = document.querySelector('#dropdown-ui select');
     dropdown.addEventListener('change', function(e) {
         let species = e.target.value;
-        console.log(species);
+       // console.log(species);
+        loadImage(species);
         getBirds(species);
         
     });
@@ -112,7 +113,7 @@ function getData(species) {
 }
 
 function processData(data) {
-    console.log(data);
+   // console.log(data);
     let birdData = [];
     
     for (let j of data) {
@@ -130,7 +131,7 @@ function processData(data) {
 }
 
 function displayBirds() {
-    console.log(a.data.birds);
+    //console.log(a.data.birds);
    
     for (let j of a.data.birds) {
         let latlng = L.latLng(j.lat, j.lng);
@@ -159,9 +160,9 @@ function getCountyData() {
 }
 
 function getBirds(species) {
-    console.log(species)
+   // console.log(species)
     if(species == null) {
-        species = "rethaw";
+        species = birds[0];
     }
     fname = hawks[species].file;
     getSpeciesData(fname, species);   
@@ -196,10 +197,10 @@ function processFileData(code) {
     for(i=0; i<counts; i++) {
         counts[i] = counts[i]/sum;
     }
-      console.log(counts);
+      //console.log(counts);
       var breaks = chroma.limits(counts, 'q', 5);
 
-      var colorize = chroma.scale(chroma.brewer.OrRd)
+      var colorize = chroma.scale(chroma.brewer.YlGn)
                            .classes(breaks)
                            .mode('lab'); 
                            
@@ -210,7 +211,7 @@ function drawMap(colorize, code) {
     const dataLayer = L.geoJson(a.data[code], {
         style: function (feature) {
           return {
-            color: "black",
+            color: "#d9d9d9",
             weight: 1,
             fillOpacity: 1,
             fillColor: "#1f78b4"
@@ -228,27 +229,29 @@ function drawMap(colorize, code) {
 
             layer.on("mouseout", function() {
                 layer.setStyle({
-                    color: "black",
+                    color: "#d9d9d9",
                     weight: 1
                 });
             });
         }
       }).addTo(a.map.placed);
-      updateMap(dataLayer, colorize);
+      updateMap(dataLayer, colorize, code);
 }
 
-function updateMap(dataLayer, colorize) {
+function updateMap(dataLayer, colorize, code) {
+    
     dataLayer.eachLayer(function(layer) {
-      const props = layer.feature.properties;
-      layer.setStyle({
+        const props = layer.feature.properties;
+        layer.setStyle({
         fillColor: colorize(Number(props.NUMPOINTS))
-      });
-      let tooltipInfo = `<b>${props.NUMPOINTS}</b></br><b></b>`;
-              
-              
-              layer.bindTooltip(tooltipInfo, {
-                  sticky: true,
-              });
+        });
+
+        let tooltipInfo = `<b>${hawks[code].name}</b><br><b>${props.NUMPOINTS}</b>`;
+                          
+        layer.bindTooltip(tooltipInfo, {
+            sticky: true,
+        });
+        
     });
    // map.dragging.enable();
   } // end updateMap()
@@ -259,4 +262,9 @@ function updateMap(dataLayer, colorize) {
             a.map.placed.removeLayer(layer);
        }
     });
+  }
+
+  function loadImage(code) {
+    let imgDiv = document.querySelector("#bird-img");
+    imgDiv.innerHTML = `<img src=${hawks[code].image}><p>${hawks.rethaw.imageAttr}</p>`;
   }

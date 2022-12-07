@@ -14,31 +14,31 @@
         integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
         crossorigin="" />
     <!-- Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,400;0,800;1,800&display=swap"
-        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;500;600;700&display=swap" rel="stylesheet"> 
     <link href="styles.css" rel="stylesheet" />
    
 </head>
 
 <body>
     <div class="container-fluid">
-        <header class="row bg-dark text-white py-3">
+        <!--<header class="row bg-dark text-white py-3">
             <div class="col">
                 <h1>Falcons and Hawks of Pennsylvania</h1>
                 
             </div>
-        </header>
+        </header>-->
 
         <section class="row">
             <div class="col-sm-8 order-md-2 px-0">
                 <div id="map"></div>
             </div>
-            <aside id="about" class="col-sm-4 order-md-1 text-white py-2 pl-3 bg-secondary overflow-auto">
+            <aside id="about" class="col-sm-4 order-md-1 py-2 pl-3 overflow-auto">
+                <h1 class="text-white">Falcons and Hawks of Pennsylvania</h1>
                 <section>
                     <button id="geolocate-ui">View recent observations near you</button>
                     <div class='mt-1' id="locateFeedback"></div>
                 </section>
-                
+
                 <div class="form-group mr-3 mt-3 col-lg-6" id="dropdown-ui">
                         <select class="form-control">
                             
@@ -50,8 +50,14 @@
                         </select>
                     </div>
                 
-                <iframe src="https://macaulaylibrary.org/asset/510739201/embed" height="361" width="320" frameborder="0" allowfullscreen></iframe>
-                <p>Info about bird</p>
+                <section id="bird-info">
+                    <div id="bird-img">
+
+                    </div>
+                    <p>Info about bird</p>
+
+                </section>
+                
             </aside>
             
            
@@ -93,6 +99,7 @@
     <script>
         createMap();
         updateData();
+
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(function (x) {
                 console.log(x);

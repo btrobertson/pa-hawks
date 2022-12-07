@@ -39,31 +39,41 @@ const hawks =
     norhar2: {
         name: "Northern Harrier",
         code: "norhar2",
-        file: "harrier_2022_counts.geojson"
+        file: "harrier_2022_counts.geojson",
+        image: "",
     },
     rethaw: {
         name: "Red-tailed Hawk",
         code: "rethaw",
         file: "red-tail_2022_counts.geojson",
+        image: "https://upload.wikimedia.org/wikipedia/commons/5/52/Red-tailed_hawk_in_Central_Park_%2824998%29.jpg",
+        imageAttr: '<a href="https://commons.wikimedia.org/wiki/File:Red-tailed_hawk_in_Central_Park_(24998).jpg">Rhododendrites</a>, <a href="https://creativecommons.org/licenses/by-sa/4.0">CC BY-SA 4.0</a>, via Wikimedia Commons',
     },
     amekes: {
         name: "American Kestrel",
         code: "amekes",
         file: "kestrel_2022_counts.geojson",
+        image: "",
     },
     coohaw: {
         name: "Cooper's Hawk",
         code: "coohaw",
         file: "cooper_2022_counts.geojson",
+        image: "https://upload.wikimedia.org/wikipedia/commons/5/5a/Accipiter_cooperii_m_Sam_Smith_Toronto3.jpg",
+        imageAttr: '<a href="https://commons.wikimedia.org/wiki/File:Accipiter_cooperii_m_Sam_Smith_Toronto3.jpg">Mykola Swarnyk</a>, <a href="https://creativecommons.org/licenses/by-sa/3.0">CC BY-SA 3.0</a>, via Wikimedia Commons',
     },
     shshaw: {
         name: "Sharp-shinned Hawk",
         code: "shshaw",
         file: "sharp-shinned_2022_counts.geojson",
+        image: "",
     },
     perfal: {
         name: "Peregrine Falcon",
         code: "perfal",
         file: "perfal_2022_counts.geojson",
+        image: "",
     },
-    }
+    };
+
+    
