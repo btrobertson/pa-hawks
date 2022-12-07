@@ -40,7 +40,8 @@ const hawks =
         name: "Northern Harrier",
         code: "norhar2",
         file: "harrier_2022_counts.geojson",
-        image: "",
+        image: "https://upload.wikimedia.org/wikipedia/commons/5/51/Female_northern_harrier_in_flight-1672.jpg",
+        imageAttr: '<a href="https://commons.wikimedia.org/wiki/File:Female_northern_harrier_in_flight-1672.jpg">Frank Schulenburg</a>, <a href="https://creativecommons.org/licenses/by-sa/4.0">CC BY-SA 4.0</a>, via Wikimedia Commons',
     },
     rethaw: {
         name: "Red-tailed Hawk",
@@ -53,7 +54,8 @@ const hawks =
         name: "American Kestrel",
         code: "amekes",
         file: "kestrel_2022_counts.geojson",
-        image: "",
+        image: "https://upload.wikimedia.org/wikipedia/commons/b/b4/Falco_sparverius_05.jpg",
+        imageAttr: '<a href="https://commons.wikimedia.org/wiki/File:Falco_sparverius_05.jpg">Fedaro Fernando da Rosa</a>, <a href="https://creativecommons.org/licenses/by-sa/3.0">CC BY-SA 3.0</a>, via Wikimedia Commons',
     },
     coohaw: {
         name: "Cooper's Hawk",
@@ -66,13 +68,15 @@ const hawks =
         name: "Sharp-shinned Hawk",
         code: "shshaw",
         file: "sharp-shinned_2022_counts.geojson",
-        image: "",
+        image: "https://upload.wikimedia.org/wikipedia/commons/5/5d/Sharp-shinned_Hawk_%2850958298391%29.jpg",
+        imageAttr: '<a href="https://commons.wikimedia.org/wiki/File:Sharp-shinned_Hawk_(50958298391).jpg">Channel City Camera Club/Susan T. Cook</a>, <a href="https://creativecommons.org/licenses/by/2.0">CC BY 2.0</a>, via Wikimedia Commons',
     },
     perfal: {
         name: "Peregrine Falcon",
         code: "perfal",
         file: "perfal_2022_counts.geojson",
-        image: "",
+        image: "https://upload.wikimedia.org/wikipedia/commons/9/93/Falco_peregrinus_113345020.jpg",
+        imageAttr: '<a href="https://commons.wikimedia.org/wiki/File:Falco_peregrinus_113345020.jpg">Jonathan Eisen</a>, <a href="https://creativecommons.org/licenses/by/4.0">CC BY 4.0</a>, via Wikimedia Commons',
     },
     };
 

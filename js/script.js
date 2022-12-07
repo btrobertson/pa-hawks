@@ -1,6 +1,6 @@
 //const birds = ['rethaw', 'baleag', 'amekes', 'coohaw', 'shshaw', 'perfal', 'reshaw', 'norgos', 'merlin', 'norhar2', 'rolhaw', 'redcro', 'goleag'];
-//const birds = ['rethaw', 'amekes', 'coohaw', 'norhar2', 'shshaw', 'perfal'];
-const birds = ['coohaw', 'rethaw'];
+const birds = ['rethaw', 'amekes', 'coohaw', 'norhar2', 'shshaw', 'perfal'];
+//const birds = ['coohaw', 'rethaw'];
 
 function createMap() {
     a.map.placed = L.map(a.map.div, a.map.options);
@@ -266,5 +266,5 @@ function updateMap(dataLayer, colorize, code) {
 
   function loadImage(code) {
     let imgDiv = document.querySelector("#bird-img");
-    imgDiv.innerHTML = `<img src=${hawks[code].image}><p>${hawks.rethaw.imageAttr}</p>`;
+    imgDiv.innerHTML = `<img src=${hawks[code].image}><p>${hawks[code].imageAttr}</p>`;
   }
