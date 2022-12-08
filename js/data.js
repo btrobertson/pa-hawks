@@ -78,6 +78,34 @@ const hawks =
         image: "https://upload.wikimedia.org/wikipedia/commons/9/93/Falco_peregrinus_113345020.jpg",
         imageAttr: '<a href="https://commons.wikimedia.org/wiki/File:Falco_peregrinus_113345020.jpg">Jonathan Eisen</a>, <a href="https://creativecommons.org/licenses/by/4.0">CC BY 4.0</a>, via Wikimedia Commons',
     },
+    reshaw: {
+        name: "Red-shouldered Hawk",
+        code: "reshaw",
+        file: "reshaw_2022_counts.geojson",
+        image: "",
+        imageAttr: '',
+    },
+    norgos: {
+        name: "Northern Goshawk",
+        code: "norgos",
+        file: "norgos_2022_counts.geojson",
+        image: "",
+        imageAttr: '',
+    },
+    merlin: {
+        name: "Merlin",
+        code: "merlin",
+        file: "merlin_2022_counts.geojson",
+        image: "",
+        imageAttr: '',
+    }, 
+    rolhaw: {
+        name: "Rough-legged Hawk",
+        code: "rolhaw",
+        file: "rolhaw_2022_counts.geojson",
+        image: "",
+        imageAttr: '',
+    }
     };
 
     

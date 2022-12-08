@@ -1,5 +1,5 @@
-//const birds = ['rethaw', 'baleag', 'amekes', 'coohaw', 'shshaw', 'perfal', 'reshaw', 'norgos', 'merlin', 'norhar2', 'rolhaw', 'redcro', 'goleag'];
-const birds = ['rethaw', 'amekes', 'coohaw', 'norhar2', 'shshaw', 'perfal'];
+const birds = ['rethaw', 'amekes', 'coohaw', 'shshaw', 'perfal', 'reshaw', 'norgos', 'merlin', 'norhar2', 'rolhaw', 'redcro', 'goleag'];
+//const birds = ['rethaw', 'amekes', 'coohaw', 'norhar2', 'shshaw', 'perfal'];
 //const birds = ['coohaw', 'rethaw'];
 
 function createMap() {
