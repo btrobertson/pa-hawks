@@ -267,4 +267,9 @@ function updateMap(dataLayer, colorize, code) {
   function loadImage(code) {
     let imgDiv = document.querySelector("#bird-img");
     imgDiv.innerHTML = `<img src=${hawks[code].image}><p>${hawks[code].imageAttr}</p>`;
+
+    let bname = document.querySelector("#bird-name");
+    bname.innerHTML = `<h2>${hawks[code].name}`;
   }
+
+ 

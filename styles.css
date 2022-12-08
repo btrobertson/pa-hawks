@@ -2,7 +2,7 @@ body {
     margin: 0;
     padding: 0;
     background-color: #333;
-    font-family: "Open sans", sans-serif;
+    font-family: 'Raleway', sans-serif;
     font-weight: 300;
     font-size: 100%;
 }
@@ -12,12 +12,12 @@ h1 {
     font-size: calc(1.5rem + ((100vw – 400) / 400));
     color: "#2e2e2e";
     letter-spacing: 0.02em;
-    margin: 5px 0;
+    margin: 20px 0;
 }
 
 h2 {
     font-weight: 500;
-    font-size: 2.3em;
+    font-size: 1.5em;
     letter-spacing: 0.04em;
     text-decoration: none;
     margin: 5px 0;
@@ -31,13 +31,14 @@ h3 {
 
 
 a {
-    color: #93c3ee;
+    color: #333300;
     font-weight: 400;
     text-decoration: none;
 }
 
 a:hover {
     text-decoration: underline;
+    color: #333300;
 }
 
 ul {
@@ -83,6 +84,7 @@ footer {
 aside {
     height: calc(40vh - 50px);
     background-color: #32814c;
+    color: #fff;
 }
 
 .container-fluid {
