@@ -82,29 +82,30 @@ const hawks =
         name: "Red-shouldered Hawk",
         code: "reshaw",
         file: "reshaw_2022_counts.geojson",
-        image: "",
-        imageAttr: '',
+        image: "https://upload.wikimedia.org/wikipedia/commons/6/62/Red-shouldered_Hawk_%28Buteo_lineatus%29_-_Blue_Cypress_Lake%2C_Florida.jpg",
+        imageAttr: '<a href="https://commons.wikimedia.org/wiki/File:Red-shouldered_Hawk_(Buteo_lineatus)_-_Blue_Cypress_Lake,_Florida.jpg">Andy Morffew</a>, <a href="https://creativecommons.org/licenses/by/2.0">CC BY 2.0</a>, via Wikimedia Commons',
     },
     norgos: {
         name: "Northern Goshawk",
         code: "norgos",
         file: "norgos_2022_counts.geojson",
-        image: "",
-        imageAttr: '',
+        image: "https://upload.wikimedia.org/wikipedia/commons/8/81/Northern_Goshawk_ad_M2.jpg",
+        imageAttr: '<a href="https://commons.wikimedia.org/wiki/File:Northern_Goshawk_ad_M2.jpg">Norbert Kenntner, Berlin</a>, <a href="http://creativecommons.org/licenses/by-sa/3.0/">CC BY-SA 3.0</a>, via Wikimedia Commons',
     },
     merlin: {
         name: "Merlin",
         code: "merlin",
         file: "merlin_2022_counts.geojson",
-        image: "",
-        imageAttr: '',
+        image: "https://upload.wikimedia.org/wikipedia/commons/7/70/Falco_columbarius_%28Merlin%29_%285530094753%29.jpg",
+        imageAttr: '<a href="https://commons.wikimedia.org/wiki/File:Falco_columbarius_(Merlin)_(5530094753).jpg">David St. Louis</a>, <a href="https://creativecommons.org/licenses/by/2.0">CC BY 2.0</a>, via Wikimedia Commons',
     }, 
     rolhaw: {
         name: "Rough-legged Hawk",
         code: "rolhaw",
         file: "rolhaw_2022_counts.geojson",
-        image: "",
-        imageAttr: '',
+        birdFile: "rolhaw_2022_data",
+        image: "https://upload.wikimedia.org/wikipedia/commons/e/e4/Buteo_lagopus_29283.JPG",
+        imageAttr: '<a href="https://commons.wikimedia.org/wiki/File:Buteo_lagopus_29283.JPG">Walter Siegmund</a>, <a href="http://creativecommons.org/licenses/by-sa/3.0/">CC BY-SA 3.0</a>, via Wikimedia Commons',
     }
     };
 

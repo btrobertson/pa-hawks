@@ -15,8 +15,7 @@ function createMap() {
 function locateUI() {
     a.buttons.locate.placed = document.querySelector(a.buttons.locate.id);
     a.location.info = document.querySelector(a.location.feedBack);
-    a.buttons.locate.placed.addEventListener("click", function() {
-        
+    a.buttons.locate.placed.addEventListener("click", function() {        
         clearMap();  
         geoLocate();
         getData();  
@@ -39,7 +38,7 @@ function geoLocate() {
         const latlng = L.latLng(lat, lng);
         bnds.extend(latlng);
         n++;
-      //  console.log("N: " + n);
+
         if (n == 5) {
             clearInterval(timer);
             a.location.center = bnds.getCenter();
@@ -62,14 +61,15 @@ function geoLocate() {
 
 }
 
+/** Places marker on user's location **/
 function drawMapOnLocation() {
     L.marker(a.location.center).addTo(a.map.placed);
    // console.log(a.location.center);
     a.map.placed.setView(a.location.center, a.map.options.zoom + 3);
     getData();
-
 }
 
+/** Updats observation map when dropdown is changed **/
 function updateData() {
     const dropdown = document.querySelector('#dropdown-ui select');
     dropdown.addEventListener('change', function(e) {
@@ -81,6 +81,7 @@ function updateData() {
     });
 }
 
+/** Uses ebird API to get nearby recent sightings **/
 function getData(species) {
     const myKey = "7lldvh8bjeni";
     const myLoc = "US-PA";
@@ -112,6 +113,7 @@ function getData(species) {
         .catch(error => console.log('error', error));
 }
 
+/** Filters data returned from ebird API call **/
 function processData(data) {
    // console.log(data);
     let birdData = [];
@@ -122,17 +124,15 @@ function processData(data) {
             if(j.speciesCode == birds[i]) {
                 birdData.push(j);
             }
-        }
-        
+        }       
     }
 
     a.data.birds = birdData;
-   // console.log(a.data.birds);
 }
 
+/** Creates markers for data stored in a.data.birds **/
 function displayBirds() {
-    //console.log(a.data.birds);
-   
+ 
     for (let j of a.data.birds) {
         let latlng = L.latLng(j.lat, j.lng);
 
@@ -140,9 +140,9 @@ function displayBirds() {
         marker.bindTooltip(`${j.comName} <br> Count: ${j.howMany}`).openTooltip();
         marker.addTo(a.map.placed);
     }
-
 }
 
+/** Opens and stores county boundary data file **/
 function getCountyData() {
 
     fetch("data/Pennsylvania_County_Boundaries.geojson")
@@ -159,6 +159,7 @@ function getCountyData() {
         
 }
 
+/** Finds file info for selected species **/
 function getBirds(species) {
    // console.log(species)
     if(species == null) {
@@ -168,6 +169,7 @@ function getBirds(species) {
     getSpeciesData(fname, species);   
 }
 
+/** Opens and stores bird data files **/
 function getSpeciesData(fname, code) {
     
     fetch(`data/${fname}`)
@@ -175,16 +177,15 @@ function getSpeciesData(fname, code) {
             return data.json();
         })
         .then(function(data) {
-            a.data[code] = data;
-            
+            a.data[code] = data;            
             processFileData(code);
         })
         .catch(function (error) {
             console.log(`An error has occurred`, error);
         }); // end fetch and promise chain
-
 }
 
+/** Assigns breaks for bird data counts **/
 function processFileData(code) {
     const counts = [];
     let sum = 0;
@@ -207,6 +208,7 @@ function processFileData(code) {
     drawMap(colorize, code);
 }
 
+/** **/
 function drawMap(colorize, code) {
     const dataLayer = L.geoJson(a.data[code], {
         style: function (feature) {
@@ -251,11 +253,37 @@ function updateMap(dataLayer, colorize, code) {
         layer.bindTooltip(tooltipInfo, {
             sticky: true,
         });
+        layer.addEventListener("mousedown", function() {        
+            console.log("test")
+        });
         
     });
+
+function fetchBirdPoints(fname) {
+    fetch(`data/${fname}`)
+    .then(function(data){
+        return data.json();
+    })
+    .then(function(data) {
+        a.data[code] = data;            
+       
+    })
+    .catch(function (error) {
+        console.log(`An error has occurred`, error);
+    }); // end fetch and promise chain
+}
+
+
+
+function addBirdPoints() {
+
+}
+
+        
    // map.dragging.enable();
   } // end updateMap()
 
+  /** Removes layers to display point location map **/
   function clearMap() {
     a.map.placed.eachLayer(function(layer) {
        if(layer._leaflet_id != 26) {
@@ -264,6 +292,7 @@ function updateMap(dataLayer, colorize, code) {
     });
   }
 
+  /** Switches image on dropdown change **/
   function loadImage(code) {
     let imgDiv = document.querySelector("#bird-img");
     imgDiv.innerHTML = `<img src=${hawks[code].image}><p>${hawks[code].imageAttr}</p>`;
