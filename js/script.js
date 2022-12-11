@@ -222,6 +222,7 @@ function processFileData(code) {
                            .mode('lab'); 
                            
     drawMap(colorize, code);
+    drawLegend(breaks, colorize, code);
 }
 
 /** **/
@@ -276,6 +277,7 @@ function updateMap(dataLayer, colorize, code) {
         });
         
     });
+    
     a.map.placed.setView(a.map.options.center, a.map.options.zoom);
 }
 
@@ -335,4 +337,54 @@ let bname = document.querySelector("#bird-name");
 bname.innerHTML = `<h2>${hawks[code].name}</h2>`;
 }
 
+function drawLegend(breaks, colorize, code) {
+    const legendControl = L.control({
+        position: 'topright'
+      });
+    
+    legendControl.onAdd = function(map) {
+        const legend = L.DomUtil.create('div', 'legend');
+        return legend;
+    };
+
+    legendControl.addTo(a.map.placed);
+
+    const legend = document.querySelector('.legend');
+      legend.innerHTML = `<h3>${hawks[code].name}</h3><ul>`;
+      
+      for (let i=0; i < breaks.length - 1; i++) {
+        const color = colorize(breaks[i], breaks);
+        const classRange = `<li><span style="background:${color}"></span>
+          ${parseInt(breaks[i])} &ndash;
+          ${parseInt(breaks[i+1])} </li>`;
+
+          legend.innerHTML += classRange;
+      }
+
+      legend.innerHTML += "</ul>";
+
+}
+
+function createSliderUI(dataLayer, colorize) {
+    const sliderControl = L.control({ position: 'bottomleft'});
+
+    sliderControl.onAdd = function(map) {
+      const slider = L.DomUtil.get("ui-controls");
+      L.DomEvent.disableScrollPropagation(slider);
+      L.DomEvent.disableClickPropagation(slider);
+      return slider;
+    }
+
+    sliderControl.addTo(a.map.placed);
+
+    const slider = document.querySelector(".season-slider");
+
+    slider.addEventListener("input", function(e) {
+      
+      const currentSeason = e.target.value;
+      updateMap(dataLayer, colorize, currentSeason);
+      document.querySelector(".legend h3 span").innerHTML = currentSeason;
+      
+    });
+  } 
  
