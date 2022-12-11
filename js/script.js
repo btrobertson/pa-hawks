@@ -1,4 +1,4 @@
-const birds = ['rethaw', 'amekes', 'coohaw', 'shshaw', 'perfal', 'reshaw', 'norgos', 'merlin', 'norhar2', 'rolhaw', 'redcro', 'goleag'];
+const birds = ['rethaw', 'amekes', 'coohaw', 'shshaw', 'perfal', 'reshaw', 'merlin', 'norhar2', 'rolhaw', 'redcro', 'goleag', 'obs'];
 //const birds = ['rethaw', 'amekes', 'coohaw', 'norhar2', 'shshaw', 'perfal'];
 //const birds = ['coohaw', 'rethaw'];
 
@@ -13,18 +13,20 @@ function createMap() {
 }
 
 function locateUI() {
-    a.buttons.locate.placed = document.querySelector(a.buttons.locate.id);
+   // a.buttons.locate.placed = document.querySelector(a.buttons.locate.id);
     a.location.info = document.querySelector(a.location.feedBack);
-    a.buttons.locate.placed.addEventListener("click", function() {        
+    
+    /* a.buttons.locate.placed.addEventListener("click", function() {        
         clearMap();  
         geoLocate();
         getData();  
         updateData();
-    });
+    }); */
 }
 
 function geoLocate() {
-    a.buttons.locate.placed.innerHTML = "Locating...";
+    //a.buttons.locate.placed.innerHTML = "Locating...";
+    a.location.feedBack.innerHTML = "Locating...";
     let hiAcc = false;
     if(L.Browser.mobile) {
         hiAcc = true;
@@ -42,7 +44,7 @@ function geoLocate() {
         if (n == 5) {
             clearInterval(timer);
             a.location.center = bnds.getCenter();
-            a.buttons.locate.placed.innerHTML = "Location found";
+            a.location.feedBack.innerHTML = "Location found";
             drawMapOnLocation();
         }
     };
@@ -66,6 +68,7 @@ function drawMapOnLocation() {
     L.marker(a.location.center).addTo(a.map.placed);
    // console.log(a.location.center);
     a.map.placed.setView(a.location.center, a.map.options.zoom + 3);
+    removeLegend();
     getData();
 }
 
@@ -75,8 +78,17 @@ function updateData() {
     dropdown.addEventListener('change', function(e) {
         let species = e.target.value;
        // console.log(species);
-        loadImage(species);
-        getBirds(species);
+        if(species == 'obs') {
+            clearMap();  
+            geoLocate();
+            getData();  
+            updateData();
+
+        } else {
+            getBirds(species);
+            loadImage(species);
+        }
+        
         
     });
 }
@@ -136,7 +148,7 @@ function displayBirds() {
     for (let j of a.data.birds) {
         let latlng = L.latLng(j.lat, j.lng);
 
-        let marker = L.circleMarker(latlng, {radius:5});
+        let marker = L.circleMarker(latlng, {radius:5, color:'#32814c'});
         marker.bindTooltip(`${j.comName} <br> Count: ${j.howMany}`).openTooltip();
         marker.addTo(a.map.placed);
     }
@@ -215,7 +227,7 @@ function processFileData(code) {
         counts[i] = counts[i]/sum;
     }
       //console.log(counts);
-      var breaks = chroma.limits(counts, 'q', 5);
+      var breaks = chroma.limits(counts, 'q', 4);
 
       var colorize = chroma.scale(chroma.brewer.YlGn)
                            .classes(breaks)
@@ -294,7 +306,7 @@ function addBirdPoints(code, county) {
           //  console.log(j.properties['COUNTY CODE'])
             let latlng = L.latLng(j.LATITUDE, j.LONGITUDE);
 
-            let marker = L.circleMarker(latlng, {radius:5});
+            let marker = L.circleMarker(latlng, {radius:5, color: '#32814c'});
             //marker.bindTooltip(`${j.comName} <br> Count: ${j.howMany}`).openTooltip();
             marker.addTo(a.map.placed);
             center = [j.LATITUDE, j.LONGITUDE];
@@ -313,28 +325,25 @@ function getCsvData(code) {
           complete: function(data) {
             hawks[code].data = data;
           }
-        });//end of Papa.parse()
-     
-     
-      
+        });//end of Papa.parse()    
 }
 
 /** Removes layers to display point location map **/
 function clearMap() {
-a.map.placed.eachLayer(function(layer) {
-    if(layer._leaflet_id != 26) {
-        a.map.placed.removeLayer(layer);
-    }
-});
+    a.map.placed.eachLayer(function(layer) {
+        if(layer._leaflet_id != 26) {
+            a.map.placed.removeLayer(layer);
+        }
+    });
 }
 
 /** Switches image on dropdown change **/
 function loadImage(code) {
-let imgDiv = document.querySelector("#bird-img");
-imgDiv.innerHTML = `<img src=${hawks[code].image}><p>${hawks[code].imageAttr}</p>`;
+    let imgDiv = document.querySelector("#bird-img");
+    imgDiv.innerHTML = `<img src=${hawks[code].image}><p>${hawks[code].imageAttr}</p>`;
 
-let bname = document.querySelector("#bird-name");
-bname.innerHTML = `<h2>${hawks[code].name}</h2>`;
+    let bname = document.querySelector("#bird-name");
+    bname.innerHTML = `<h2>${hawks[code].name}</h2>`;
 }
 
 function drawLegend(breaks, colorize, code) {
@@ -365,26 +374,8 @@ function drawLegend(breaks, colorize, code) {
 
 }
 
-function createSliderUI(dataLayer, colorize) {
-    const sliderControl = L.control({ position: 'bottomleft'});
-
-    sliderControl.onAdd = function(map) {
-      const slider = L.DomUtil.get("ui-controls");
-      L.DomEvent.disableScrollPropagation(slider);
-      L.DomEvent.disableClickPropagation(slider);
-      return slider;
-    }
-
-    sliderControl.addTo(a.map.placed);
-
-    const slider = document.querySelector(".season-slider");
-
-    slider.addEventListener("input", function(e) {
-      
-      const currentSeason = e.target.value;
-      updateMap(dataLayer, colorize, currentSeason);
-      document.querySelector(".legend h3 span").innerHTML = currentSeason;
-      
-    });
-  } 
+function removeLegend() {
+    const legend = document.querySelector('.legend');
+    a.map.placed.removeControl(legend);
+}
  
