@@ -103,7 +103,7 @@ const hawks =
         name: "Rough-legged Hawk",
         code: "rolhaw",
         file: "rolhaw_2022_counts.geojson",
-        birdFile: "rolhaw_2022_data",
+        birdFile: "rolhaw_2022_data.geojson",
         image: "https://upload.wikimedia.org/wikipedia/commons/e/e4/Buteo_lagopus_29283.JPG",
         imageAttr: '<a href="https://commons.wikimedia.org/wiki/File:Buteo_lagopus_29283.JPG">Walter Siegmund</a>, <a href="http://creativecommons.org/licenses/by-sa/3.0/">CC BY-SA 3.0</a>, via Wikimedia Commons',
     }

@@ -166,7 +166,8 @@ function getBirds(species) {
         species = birds[0];
     }
     fname = hawks[species].file;
-    getSpeciesData(fname, species);   
+    getSpeciesData(fname, species); 
+    fetchBirdPoints(species);  
 }
 
 /** Opens and stores bird data files **/
@@ -183,6 +184,20 @@ function getSpeciesData(fname, code) {
         .catch(function (error) {
             console.log(`An error has occurred`, error);
         }); // end fetch and promise chain
+}
+
+function fetchBirdPoints(code) {
+    //console.log(hawks[code].birdFile)
+    fetch(`data/${hawks[code].birdFile}`)
+    .then(function(data){
+        return data.json();
+    })
+    .then(function(data) {
+        hawks[code].data = data;            
+    })
+    .catch(function (error) {
+        console.log(`An error has occurred`, error);
+    }); // end fetch and promise chain
 }
 
 /** Assigns breaks for bird data counts **/
@@ -253,52 +268,56 @@ function updateMap(dataLayer, colorize, code) {
         layer.bindTooltip(tooltipInfo, {
             sticky: true,
         });
-        layer.addEventListener("mousedown", function() {        
-            console.log("test")
+        layer.addEventListener("mousedown", function() {
+            countyCode = "US-PA-" + props.FIPS_COUNTY_CODE;  
+           // console.log(countyCode);   
+            addBirdPoints(code, countyCode);
         });
         
     });
+    a.map.placed.setView(a.map.options.center, a.map.options.zoom);
+}
 
-function fetchBirdPoints(fname) {
-    fetch(`data/${fname}`)
-    .then(function(data){
-        return data.json();
-    })
-    .then(function(data) {
-        a.data[code] = data;            
-       
-    })
-    .catch(function (error) {
-        console.log(`An error has occurred`, error);
-    }); // end fetch and promise chain
+function addBirdPoints(code, county) {
+    clearMap()
+    let feat = hawks[code].data.features;
+    let center;
+    //console.log(feat);
+    for (let j of feat) {
+        console.log(j.properties.FIPS_COUNTY_CODE)
+     //   console.log(county)
+        if(j.properties['COUNTY CODE'] == county) {
+          //  console.log(j.properties['COUNTY CODE'])
+            let latlng = L.latLng(j.geometry.coordinates[1], j.geometry.coordinates[0]);
+
+            let marker = L.circleMarker(latlng, {radius:5});
+            //marker.bindTooltip(`${j.comName} <br> Count: ${j.howMany}`).openTooltip();
+            marker.addTo(a.map.placed);
+            center = [j.geometry.coordinates[1], j.geometry.coordinates[0]];
+        }
+    }
+   
+    a.map.placed.setView(center, a.map.options.zoom + 3);
+   
 }
 
 
-
-function addBirdPoints() {
-
+/** Removes layers to display point location map **/
+function clearMap() {
+a.map.placed.eachLayer(function(layer) {
+    if(layer._leaflet_id != 26) {
+        a.map.placed.removeLayer(layer);
+    }
+});
 }
 
-        
-   // map.dragging.enable();
-  } // end updateMap()
+/** Switches image on dropdown change **/
+function loadImage(code) {
+let imgDiv = document.querySelector("#bird-img");
+imgDiv.innerHTML = `<img src=${hawks[code].image}><p>${hawks[code].imageAttr}</p>`;
 
-  /** Removes layers to display point location map **/
-  function clearMap() {
-    a.map.placed.eachLayer(function(layer) {
-       if(layer._leaflet_id != 26) {
-            a.map.placed.removeLayer(layer);
-       }
-    });
-  }
-
-  /** Switches image on dropdown change **/
-  function loadImage(code) {
-    let imgDiv = document.querySelector("#bird-img");
-    imgDiv.innerHTML = `<img src=${hawks[code].image}><p>${hawks[code].imageAttr}</p>`;
-
-    let bname = document.querySelector("#bird-name");
-    bname.innerHTML = `<h2>${hawks[code].name}`;
-  }
+let bname = document.querySelector("#bird-name");
+bname.innerHTML = `<h2>${hawks[code].name}</h2>`;
+}
 
  
