@@ -167,7 +167,8 @@ function getBirds(species) {
     }
     fname = hawks[species].file;
     getSpeciesData(fname, species); 
-    fetchBirdPoints(species);  
+    //fetchBirdPoints(species);  
+    getCsvData(species);
 }
 
 /** Opens and stores bird data files **/
@@ -280,27 +281,41 @@ function updateMap(dataLayer, colorize, code) {
 
 function addBirdPoints(code, county) {
     clearMap()
-    let feat = hawks[code].data.features;
+   // console.log(hawks[code].data.data[0])
+    //let feat = hawks[code].data.features;
+    let feat = hawks[code].data.data;
     let center;
     //console.log(feat);
     for (let j of feat) {
-        console.log(j.properties.FIPS_COUNTY_CODE)
      //   console.log(county)
-        if(j.properties['COUNTY CODE'] == county) {
+        if(j['COUNTY CODE'] == county) {
           //  console.log(j.properties['COUNTY CODE'])
-            let latlng = L.latLng(j.geometry.coordinates[1], j.geometry.coordinates[0]);
+            let latlng = L.latLng(j.LATITUDE, j.LONGITUDE);
 
             let marker = L.circleMarker(latlng, {radius:5});
             //marker.bindTooltip(`${j.comName} <br> Count: ${j.howMany}`).openTooltip();
             marker.addTo(a.map.placed);
-            center = [j.geometry.coordinates[1], j.geometry.coordinates[0]];
+            center = [j.LATITUDE, j.LONGITUDE];
         }
     }
    
-    a.map.placed.setView(center, a.map.options.zoom + 3);
+    a.map.placed.setView(center, a.map.options.zoom + 2);
    
 }
 
+function getCsvData(code) { 
+
+        Papa.parse(`data/${hawks[code].birdFile}`, {
+          download: true,
+          header: true,
+          complete: function(data) {
+            hawks[code].data = data;
+          }
+        });//end of Papa.parse()
+     
+     
+      
+}
 
 /** Removes layers to display point location map **/
 function clearMap() {
