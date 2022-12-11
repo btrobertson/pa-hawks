@@ -224,10 +224,10 @@ function processFileData(code) {
     });
 
     for(i=0; i<counts; i++) {
-        counts[i] = counts[i]/sum;
+        counts[i] = parseInt(counts[i]/sum);
     }
       //console.log(counts);
-      var breaks = chroma.limits(counts, 'q', 4);
+      var breaks = chroma.limits(counts, 'e', 5);
 
       var colorize = chroma.scale(chroma.brewer.YlGn)
                            .classes(breaks)
@@ -347,17 +347,26 @@ function loadImage(code) {
 }
 
 function drawLegend(breaks, colorize, code) {
-    const legendControl = L.control({
-        position: 'topright'
-      });
+    if(document.querySelector('.legend') == null) {
+        const legendControl = L.control({
+            position: 'topright'
+          });
+        
+        legendControl.onAdd = function(map) {
+            const legend = L.DomUtil.create('div', 'legend');
+            return legend;
+        };
     
-    legendControl.onAdd = function(map) {
-        const legend = L.DomUtil.create('div', 'legend');
-        return legend;
-    };
+        legendControl.addTo(a.map.placed);
+        updateLegend(breaks, colorize, code);
+    } else {
+        updateLegend(breaks, colorize, code);
+    }
+    
 
-    legendControl.addTo(a.map.placed);
+}
 
+function updateLegend(breaks, colorize, code) {
     const legend = document.querySelector('.legend');
       legend.innerHTML = `<h3>${hawks[code].name}</h3><ul>`;
       
@@ -371,7 +380,6 @@ function drawLegend(breaks, colorize, code) {
       }
 
       legend.innerHTML += "</ul>";
-
 }
 
 function removeLegend() {
