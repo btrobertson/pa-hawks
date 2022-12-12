@@ -146,7 +146,7 @@ function processData(data) {
 function displayBirds() {
  
     for (let j of a.data.birds) {
-        let latlng = L.latLng(j.lat, j.lng);
+        let latlng = L.latLng(makeRandom(j.lat), makeRandom(j.lng));
 
         let marker = L.circleMarker(latlng, {radius:5, color:'#32814c'});
         marker.bindTooltip(`${j.comName} <br> Count: ${j.howMany}`).openTooltip();
@@ -304,7 +304,7 @@ function addBirdPoints(code, county) {
      //   console.log(county)
         if(j['COUNTY CODE'] == county) {
           //  console.log(j.properties['COUNTY CODE'])
-            let latlng = L.latLng(j.LATITUDE, j.LONGITUDE);
+            let latlng = L.latLng(makeRandom(j.LATITUDE), makeRandom(j.LONGITUDE));
 
             let marker = L.circleMarker(latlng, {radius:5, color: '#32814c'});
             //marker.bindTooltip(`${j.comName} <br> Count: ${j.howMany}`).openTooltip();
@@ -315,6 +315,11 @@ function addBirdPoints(code, county) {
    
     a.map.placed.setView(center, a.map.options.zoom + 2);
    
+}
+
+function makeRandom(coord) {
+    const sign = Math.random() < 0.5 ? -1 : 1;
+    return Number(coord) + (Math.random() * 0.001 * sign);
 }
 
 function getCsvData(code) { 
