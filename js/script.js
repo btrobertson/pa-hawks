@@ -8,8 +8,9 @@ function createMap() {
     L.tileLayer(a.tiles.url, a.tiles.options).addTo(a.map.placed);
     locateUI();
     getCountyData();
-    getBirds(birds[0]);
+    //getBirds(birds[0]);
     loadImage(birds[0]);
+    updateData();
 }
 
 function locateUI() {
@@ -77,14 +78,15 @@ function updateData() {
     const dropdown = document.querySelector('#dropdown-ui select');
     dropdown.addEventListener('change', function(e) {
         let species = e.target.value;
-       // console.log(species);
+      //  console.log(species);
+        clearMap(); 
         if(species == 'obs') {
-            clearMap();  
+           /// clearMap();  
             geoLocate();
             getData();  
-            updateData();
+           // updateData();
 
-        } else {
+        } else {           
             getBirds(species);
             loadImage(species);
         }
@@ -144,14 +146,16 @@ function processData(data) {
 
 /** Creates markers for data stored in a.data.birds **/
 function displayBirds() {
- 
+    
     for (let j of a.data.birds) {
         let latlng = L.latLng(makeRandom(j.lat), makeRandom(j.lng));
 
         let marker = L.circleMarker(latlng, {radius:5, color:'#32814c'});
         marker.bindTooltip(`${j.comName} <br> Count: ${j.howMany}`).openTooltip();
         marker.addTo(a.map.placed);
+  
     }
+
 }
 
 /** Opens and stores county boundary data file **/
@@ -164,7 +168,10 @@ function getCountyData() {
         .then(function (counties) {   
             a.data.counties = counties;  
         })
-                
+        .then(function(){
+            drawCounties();
+            getBirds(birds[0]);
+        })       
         .catch(function (error) {
             console.log(`An error has occurred`, error);
         }); // end fetch and promise chain
@@ -217,37 +224,43 @@ function fetchBirdPoints(code) {
 function processFileData(code) {
     const counts = [];
     let sum = 0;
+    a.data[code].features.sort(function(a, b) {
+        return b.properties.NUMPOINTS - a.properties.NUMPOINTS;
+    });
     a.data[code].features.forEach(function(county) {
-        counts.push(Number(county.properties.NUMPOINTS));
-        sum = sum + county.properties.NUMPOINTS;
+        counts.push(county.properties.NUMPOINTS);
+       // sum = sum + county.properties.NUMPOINTS;
         //counts.push(Number(county.properties.NUMPOINTS/county.properties.area));       
     });
 
-    for(i=0; i<counts; i++) {
+    /* for(i=0; i<counts; i++) {
         counts[i] = parseInt(counts[i]/sum);
-    }
+    } */
       //console.log(counts);
-      var breaks = chroma.limits(counts, 'e', 5);
+    //  var breaks = chroma.limits(counts, 'e', 5);
 
-      var colorize = chroma.scale(chroma.brewer.YlGn)
+     /* var colorize = chroma.scale(chroma.brewer.YlGn)
                            .classes(breaks)
-                           .mode('lab'); 
+                           .mode('lab'); */
                            
-    drawMap(colorize, code);
-    drawLegend(breaks, colorize, code);
+    drawMap(code);
+    //drawLegend(breaks, colorize, code);
 }
 
 /** **/
-function drawMap(colorize, code) {
-    const dataLayer = L.geoJson(a.data[code], {
-        style: function (feature) {
-          return {
-            color: "#d9d9d9",
-            weight: 1,
-            fillOpacity: 1,
-            fillColor: "#1f78b4"
-          };
+function drawMap(code) {
+
+    a.layers.totalPointLayer = L.geoJson(a.data[code], {
+        pointToLayer: function(feature,latlng) {
+            return L.circleMarker(latlng, {
+              color: '#32814c',
+              weight: 1,
+              fillColor: '#32814c',
+              fillOpacity: .5,
+              radius: getRadius(feature.properties.NUMPOINTS)
+            });
         },
+        
         onEachFeature: function(feature, layer) {
             layer.on("mouseover", function() {
                 layer
@@ -260,31 +273,32 @@ function drawMap(colorize, code) {
 
             layer.on("mouseout", function() {
                 layer.setStyle({
-                    color: "#d9d9d9",
+                    color: "#32814c",
                     weight: 1
                 });
             });
         }
       }).addTo(a.map.placed);
-      updateMap(dataLayer, colorize, code);
+     // updateMap(pointLayer, code);
+     updateMap(code);
 }
 
-function updateMap(dataLayer, colorize, code) {
-    
-    dataLayer.eachLayer(function(layer) {
+//function updateMap(pointLayer, code) {
+function updateMap(code) {
+    a.layers.totalPointLayer.eachLayer(function(layer) {
         const props = layer.feature.properties;
         layer.setStyle({
-        fillColor: colorize(Number(props.NUMPOINTS))
+       // fillColor: colorize(Number(props.NUMPOINTS))
         });
-
-        let tooltipInfo = `<b>${hawks[code].name}</b><br><b>${props.NUMPOINTS}</b>`;
+        let county = props.COUNTY_NAME.toLowerCase();
+        county = county.replace(county[0], county[0].toUpperCase());
+        let tooltipInfo = `<b>${county} County</b><br><b>${hawks[code].name}</b><br><b>Total Observations: ${props.NUMPOINTS}</b>`;
                           
         layer.bindTooltip(tooltipInfo, {
             sticky: true,
         });
         layer.addEventListener("mousedown", function() {
-            countyCode = "US-PA-" + props.FIPS_COUNTY_CODE;  
-           // console.log(countyCode);   
+            countyCode = "US-PA-" + props.FIPS_COUNTY_CODE;    
             addBirdPoints(code, countyCode);
         });
         
@@ -293,13 +307,27 @@ function updateMap(dataLayer, colorize, code) {
     a.map.placed.setView(a.map.options.center, a.map.options.zoom);
 }
 
+function drawCounties() {
+   // console.log(a.data.counties)
+    a.layers.countyLayer = L.geoJson(a.data.counties, {
+        style: function () {
+          return {
+            color: "#d9d9d9",
+            weight: 1,
+          };
+        }
+        
+    }).addTo(a.map.placed);
+   
+}
+
 function addBirdPoints(code, county) {
     clearMap()
-   // console.log(hawks[code].data.data[0])
-    //let feat = hawks[code].data.features;
+
     let feat = hawks[code].data.data;
     let center;
-    //console.log(feat);
+    a.layers.markers = L.layerGroup();
+   // console.log(feat);
     for (let j of feat) {
      //   console.log(county)
         if(j['COUNTY CODE'] == county) {
@@ -308,8 +336,15 @@ function addBirdPoints(code, county) {
 
             let marker = L.circleMarker(latlng, {radius:5, color: '#32814c'});
             //marker.bindTooltip(`${j.comName} <br> Count: ${j.howMany}`).openTooltip();
-            marker.addTo(a.map.placed);
+            a.layers.markers.addLayer(marker).addTo(a.map.placed);
             center = [j.LATITUDE, j.LONGITUDE];
+            
+            let tooltipInfo = `<b>${j['COMMON NAME']}</b><br><b>Observation date: </b>${j['OBSERVATION DATE'].toLocaleString()}<br><b>Observer ID: </b>${j['OBSERVER ID']}`;
+                          
+        marker.bindTooltip(tooltipInfo, {
+            sticky: true,
+        });
+            
         }
     }
    
@@ -323,23 +358,33 @@ function makeRandom(coord) {
 }
 
 function getCsvData(code) { 
-
         Papa.parse(`data/${hawks[code].birdFile}`, {
           download: true,
           header: true,
           complete: function(data) {
             hawks[code].data = data;
           }
-        });//end of Papa.parse()    
+        });    
 }
 
 /** Removes layers to display point location map **/
 function clearMap() {
-    a.map.placed.eachLayer(function(layer) {
-        if(layer._leaflet_id != 26) {
+   // console.log(a.layers.totalPointLayer)
+    a.layers.totalPointLayer.eachLayer(function (layer) {
+        a.map.placed.removeLayer(layer);
+    });
+    //console.log(a.layers.markers)
+    if(a.layers.markers != null) {
+        a.layers.markers.eachLayer(function (layer) {
+            a.map.placed.removeLayer(layer);
+        });
+    }
+    
+    /* a.map.placed.eachLayer(function(layer) {
+        if(layer._leaflet_id != 70 && layer._leaflet_id != 26) {
             a.map.placed.removeLayer(layer);
         }
-    });
+    }); */
 }
 
 /** Switches image on dropdown change **/
@@ -390,5 +435,10 @@ function updateLegend(breaks, colorize, code) {
 function removeLegend() {
     const legend = document.querySelector('.legend');
     a.map.placed.removeControl(legend);
+}
+
+function getRadius(area) {
+    var radius = Math.sqrt(area/Math.PI);
+    return radius;
 }
  

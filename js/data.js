@@ -9,7 +9,7 @@ const a = {
         options: {
             zoomSnap: 0.1,
             zoomControl: false,
-            zoom: 7,
+            zoom: 7.5,
             center: [40.854673821881114, -77.68387082785095],
         },
         fitOptions: {
@@ -31,7 +31,8 @@ const a = {
             id: "#geolocate-ui",
         },
     },
-    
+    layers: {
+    },
 };
 
 const hawks = 
