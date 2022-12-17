@@ -161,13 +161,13 @@ function processData(data) {
 
 /** Creates markers for data stored in a.data.birds **/
 function displayBirds() {
-    
+    a.layers.markers = L.layerGroup();
     for (let j of a.data.birds) {
         let latlng = L.latLng(makeRandom(j.lat), makeRandom(j.lng));
 
         let marker = L.circleMarker(latlng, {radius:5, color:'#32814c'});
         marker.bindTooltip(`${j.comName} <br> Count: ${j.howMany}`).openTooltip();
-        marker.addTo(a.map.placed);
+        a.layers.markers.addLayer(marker).addTo(a.map.placed);
   
     }
 
@@ -394,6 +394,8 @@ function clearMap() {
             a.map.placed.removeLayer(layer);
         });
     }
+
+   
     
     /* a.map.placed.eachLayer(function(layer) {
         if(layer._leaflet_id != 70 && layer._leaflet_id != 26) {
