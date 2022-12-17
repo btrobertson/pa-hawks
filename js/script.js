@@ -17,6 +17,20 @@ function locateUI() {
    // a.buttons.locate.placed = document.querySelector(a.buttons.locate.id);
     a.location.info = document.querySelector(a.location.feedBack);
     
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(function (x) {
+            console.log(x);
+            a.location.current = [x.coords.latitude, x.coords.longitude];
+
+        }, function (y) {
+
+        }, {
+            enableHighAccuracy: true,
+            maximumAge: 0,
+        });
+    } else {
+        console.log("Geolocation is not supported by this browser.");
+    }
     /* a.buttons.locate.placed.addEventListener("click", function() {        
         clearMap();  
         geoLocate();
@@ -41,7 +55,7 @@ function geoLocate() {
         const latlng = L.latLng(lat, lng);
         bnds.extend(latlng);
         n++;
-
+        
         if (n == 5) {
             clearInterval(timer);
             a.location.center = bnds.getCenter();
@@ -67,9 +81,9 @@ function geoLocate() {
 /** Places marker on user's location **/
 function drawMapOnLocation() {
     L.marker(a.location.center).addTo(a.map.placed);
-   // console.log(a.location.center);
+    console.log("center: " + a.location.center);
     a.map.placed.setView(a.location.center, a.map.options.zoom + 3);
-    removeLegend();
+    //removeLegend();
     getData();
 }
 
@@ -83,7 +97,7 @@ function updateData() {
         if(species == 'obs') {
            /// clearMap();  
             geoLocate();
-            getData();  
+             
            // updateData();
 
         } else {           
@@ -100,6 +114,7 @@ function getData(species) {
     const myKey = "7lldvh8bjeni";
     const myLoc = "US-PA";
     let myHeaders = new Headers();
+    
     let url = `https://api.ebird.org/v2/data/obs/geo/recent?back=30&lat=${a.location.center.lat}&lng=${a.location.center.lng}`
    // let url = `https://api.ebird.org/v2/data/obs/${myLoc}/recent/?back=30`;
    //let url = `https://api.ebird.org/v2/data/obs/${myLoc}/historic/2010/11/30`
