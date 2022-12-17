@@ -80,7 +80,7 @@ function geoLocate() {
 
 /** Places marker on user's location **/
 function drawMapOnLocation() {
-    L.marker(a.location.center).addTo(a.map.placed);
+    a.layers.marker = L.marker(a.location.center).addTo(a.map.placed);
     console.log("center: " + a.location.center);
     a.map.placed.setView(a.location.center, a.map.options.zoom + 3);
     //removeLegend();
@@ -393,6 +393,10 @@ function clearMap() {
         a.layers.markers.eachLayer(function (layer) {
             a.map.placed.removeLayer(layer);
         });
+    }
+
+    if(a.layers.marker != null) {
+        a.map.placed.removeLayer(a.layers.marker);
     }
 
    
