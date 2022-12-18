@@ -356,7 +356,7 @@ function addBirdPoints(code, county) {
           //  console.log(j.properties['COUNTY CODE'])
             let latlng = L.latLng(makeRandom(j.LATITUDE), makeRandom(j.LONGITUDE));
 
-            let marker = L.circleMarker(latlng, {radius:5, color: '#32814c'});
+            let marker = L.circleMarker(latlng, {radius:5, color: '#32814c', weight: .5});
             //marker.bindTooltip(`${j.comName} <br> Count: ${j.howMany}`).openTooltip();
             a.layers.markers.addLayer(marker).addTo(a.map.placed);
             //change this to do a look up to set to county center
@@ -499,7 +499,9 @@ function updateLegend(code) {
 
 function removeLegend() {
     const legend = document.querySelector('.legend');
-    a.map.placed.removeControl(legend);
+    if(legend != null) {
+        a.map.placed.removeControl(legend);
+    }   
 }
 
 function getRadius(area) {
