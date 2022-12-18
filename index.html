@@ -108,22 +108,9 @@
     <script src="js/script.js"></script>
     <script>
         createMap();
-        //updateData();
+       // updateData();
 
-        if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(function (x) {
-                console.log(x);
-                a.location.current = [x.coords.latitude, x.coords.longitude];
-
-            }, function (y) {
-    
-            }, {
-                enableHighAccuracy: true,
-                maximumAge: 0,
-            });
-        } else {
-            console.log("Geolocation is not supported by this browser.");
-        }
+       
  
     </script>
 </body>

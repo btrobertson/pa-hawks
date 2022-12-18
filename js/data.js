@@ -33,6 +33,10 @@ const a = {
     },
     layers: {
     },
+    view: {
+        screens: ['totals', 'county', 'local'],
+        current: "totals",
+    },
 };
 
 const hawks = 
