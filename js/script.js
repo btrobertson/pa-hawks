@@ -20,7 +20,6 @@ function locateUI() {
     
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(function (x) {
-            console.log(x);
             a.location.current = [x.coords.latitude, x.coords.longitude];
 
         }, function (y) {
@@ -84,7 +83,7 @@ function drawMapOnLocation() {
     a.layers.marker = L.marker(a.location.center).addTo(a.map.placed);
     console.log("center: " + a.location.center);
     a.map.placed.setView(a.location.center, a.map.options.zoom + 3);
-    //removeLegend();
+    removeLegend();
     getData();
 }
 
@@ -264,7 +263,7 @@ function processFileData(code) {
                            .mode('lab'); */
                            
     drawMap(code);
-    //drawLegend(code);
+    drawLegend(code);
 }
 
 /** **/
@@ -346,7 +345,7 @@ function drawCounties() {
 
 function addBirdPoints(code, county) {
     a.view.current = 'county';
-
+    removeLegend();
     let feat = hawks[code].data.data;
     let center;
     a.layers.markers = L.layerGroup();
