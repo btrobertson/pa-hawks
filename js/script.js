@@ -169,7 +169,7 @@ function displayBirds() {
     for (let j of a.data.birds) {
         let latlng = L.latLng(makeRandom(j.lat), makeRandom(j.lng));
 
-        let marker = L.circleMarker(latlng, {radius:5, color:'#32814c'});
+        let marker = L.circleMarker(latlng, {radius:5, color: 'rgb(102, 51, 0)', fillOpacity:.4, weight: 1});
         marker.bindTooltip(`${j.comName} <br> Count: ${j.howMany}`).openTooltip();
         a.layers.api_markers.addLayer(marker).addTo(a.map.placed);
   
@@ -346,7 +346,9 @@ function drawCounties() {
 
 function addBirdPoints(code, county, coords) {
     a.view.current = 'county';
-    removeLegend();
+    let legendText = `<h3>${hawks[code].name}</h3><div class="county-circle"></div><div class="legend-label">Individual observations</div>`;
+    updateLegend(legendText);
+    //removeLegend();
     let feat = hawks[code].data.data;
     let center;
     a.layers.markers = L.layerGroup();
@@ -357,7 +359,7 @@ function addBirdPoints(code, county, coords) {
           //  console.log(j.properties['COUNTY CODE'])
             let latlng = L.latLng(makeRandom(j.LATITUDE), makeRandom(j.LONGITUDE));
 
-            let marker = L.circleMarker(latlng, {radius:5, color: '#32814c', weight: .5});
+            let marker = L.circleMarker(latlng, {radius:5, color: 'rgb(102, 51, 0)', fillOpacity:.4, weight: 1});
             //marker.bindTooltip(`${j.comName} <br> Count: ${j.howMany}`).openTooltip();
             a.layers.markers.addLayer(marker).addTo(a.map.placed);
             //change this to do a look up to set to county center
@@ -372,7 +374,7 @@ function addBirdPoints(code, county, coords) {
         }
     }
     center = [coords[1], coords[0]];
-    a.map.placed.setView(center, a.map.options.zoom + 2);
+    a.map.placed.setView(center, a.map.options.zoom + 3);
    
 }
 
@@ -458,6 +460,7 @@ function loadImage(code) {
 }
 
 function drawLegend(code) {
+    let legendText = `<h3>${hawks[code].name}</h3><div class="legend-circle"></div><div class="legend-label">Observation count by county</div>`;
     if(document.querySelector('.legend') == null) {
         const legendControl = L.control({
             position: 'topright'
@@ -469,17 +472,17 @@ function drawLegend(code) {
         };
     
         legendControl.addTo(a.map.placed);
-        updateLegend(code);
+        updateLegend(legendText);
     } else {
-        updateLegend(code);
+        updateLegend(legendText);
     }
     
 
 }
 
-function updateLegend(code) {
+function updateLegend(text) {
     const legend = document.querySelector('.legend');
-      legend.innerHTML = `<h3>${hawks[code].name}</h3><div class="legend-circle"></div><div class="legend-label">Observation count by county</div>`;
+      legend.innerHTML = text;
 }
 
 /* function updateLegend(breaks, colorize, code) {

@@ -84,7 +84,7 @@ li {
     width: 225px;
 }
 
-.legend-circle {
+.legend-circle, .county-circle {
     width: 15px;
     height: 15px;
     float: left;
@@ -92,9 +92,17 @@ li {
     margin-top: 2px;
     vertical-align: bottom;
     border-radius: 50%;
+    display: inline;
+}
+
+.legend-circle {
     border: 2px #32814c solid;
     background-color: rgba(50, 129, 76, .8);
-    display: inline;
+}
+
+.county-circle {
+    border: 2px rgb(102, 51, 0) solid;
+    background-color: rgba(102, 51, 0, .4);
 }
 
 .legend-label {
