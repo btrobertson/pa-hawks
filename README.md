@@ -10,8 +10,11 @@ This project maps hawk and falcon sightings in Pennsylvania and provides informa
 ### Data Sources
 Hawk and falcon observation data: [ebird.org](https://science.ebird.org/en/pa/use-ebird-data)
 
+eBird Basic Dataset. Version: EBD_relOct-2022. Cornell Lab of Ornithology, Ithaca, New York. Oct 2022.
+
 County boundaries: [US Census Bureau](https://catalog.data.gov/dataset/tiger-line-shapefile-2016-state-pennsylvania-current-county-subdivision-state-based)
 
+Images: [Wikimedia Commons](https://commons.wikimedia.org/wiki/Main_Page)
 
 ### References 
 [Pennsylvania Game Commission](https://www.pgc.pa.gov/Education/WildlifeNotesIndex/Pages/Hawks-and-Falcons.aspx)

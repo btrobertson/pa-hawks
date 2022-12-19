@@ -322,7 +322,7 @@ function updateMap(dataLayer, code) {
         layer.addEventListener("mousedown", function() {
             clearMap();
             countyCode = "US-PA-" + props.FIPS_COUNTY_CODE;    
-            addBirdPoints(code, countyCode, coords);
+            addBirdPoints(code, countyCode, county,coords);
         });
       
     });
@@ -344,9 +344,9 @@ function drawCounties() {
    
 }
 
-function addBirdPoints(code, county, coords) {
+function addBirdPoints(code, county, countyName, coords) {
     a.view.current = 'county';
-    let legendText = `<h3>${hawks[code].name}</h3><div class="county-circle"></div><div class="legend-label">Individual observations</div>`;
+    let legendText = `<h3>${hawks[code].name} - ${countyName} County</h3><div class="county-circle"></div><div class="legend-label">Individual observations</div>`;
     updateLegend(legendText);
     //removeLegend();
     let feat = hawks[code].data.data;
