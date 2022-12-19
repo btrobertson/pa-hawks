@@ -308,6 +308,7 @@ function updateMap(dataLayer, code) {
     a.view.current = 'totals'
     dataLayer.eachLayer(function(layer) {
         const props = layer.feature.properties;
+        const coords = layer.feature.geometry.coordinates;
         layer.setStyle({
        // fillColor: colorize(Number(props.NUMPOINTS))
         });
@@ -321,7 +322,7 @@ function updateMap(dataLayer, code) {
         layer.addEventListener("mousedown", function() {
             clearMap();
             countyCode = "US-PA-" + props.FIPS_COUNTY_CODE;    
-            addBirdPoints(code, countyCode);
+            addBirdPoints(code, countyCode, coords);
         });
       
     });
@@ -343,7 +344,7 @@ function drawCounties() {
    
 }
 
-function addBirdPoints(code, county) {
+function addBirdPoints(code, county, coords) {
     a.view.current = 'county';
     removeLegend();
     let feat = hawks[code].data.data;
@@ -360,7 +361,7 @@ function addBirdPoints(code, county) {
             //marker.bindTooltip(`${j.comName} <br> Count: ${j.howMany}`).openTooltip();
             a.layers.markers.addLayer(marker).addTo(a.map.placed);
             //change this to do a look up to set to county center
-            center = [j.LATITUDE, j.LONGITUDE];
+           //center = [j.LATITUDE, j.LONGITUDE];
             
             let tooltipInfo = `<b>${j['COMMON NAME']}</b><br><b>Observation date: </b>${j['OBSERVATION DATE'].toLocaleString()}<br><b>Observer ID: </b>${j['OBSERVER ID']}`;
                           
@@ -370,7 +371,7 @@ function addBirdPoints(code, county) {
             
         }
     }
-   
+    center = [coords[1], coords[0]];
     a.map.placed.setView(center, a.map.options.zoom + 2);
    
 }
