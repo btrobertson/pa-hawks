@@ -1,6 +1,4 @@
 const birds = ['rethaw', 'amekes', 'coohaw', 'shshaw', 'perfal', 'reshaw', 'merlin', 'norhar2', 'rolhaw', 'redcro', 'goleag', 'obs'];
-//const birds = ['rethaw', 'amekes', 'coohaw', 'norhar2', 'shshaw', 'perfal'];
-//const birds = ['coohaw', 'rethaw'];
 
 function createMap() {
     a.map.placed = L.map(a.map.div, a.map.options);
@@ -9,13 +7,12 @@ function createMap() {
     a.layers.totalPointLayer = L.layerGroup();
     locateUI();
     getCountyData();
-    //getBirds(birds[0]);
     loadImage(birds[0]);
     updateData();
 }
 
+
 function locateUI() {
-   // a.buttons.locate.placed = document.querySelector(a.buttons.locate.id);
  
     a.location.info = document.querySelector(a.location.feedBack);
 
@@ -32,18 +29,11 @@ function locateUI() {
     } else {
         console.log("Geolocation is not supported by this browser.");
     }
-    /* a.buttons.locate.placed.addEventListener("click", function() {        
-        clearMap();  
-        geoLocate();
-        getData();  
-        updateData();
-    }); */
 }
 
+
 function geoLocate() {
-    //a.buttons.locate.placed.innerHTML = "Locating...";
-    
-    //a.location.feedBack.innerHTML = "Locating...";
+
     let hiAcc = false;
     if(L.Browser.mobile) {
         hiAcc = true;
@@ -80,6 +70,7 @@ function geoLocate() {
 
 }
 
+
 /** Places marker on user's location **/
 function drawMapOnLocation() {
     a.layers.marker = L.marker(a.location.center).addTo(a.map.placed);
@@ -88,6 +79,7 @@ function drawMapOnLocation() {
     removeLegend();
     getData();
 }
+
 
 /** Updats observation map when dropdown is changed **/
 function updateData() {
@@ -111,10 +103,9 @@ function updateData() {
             getBirds(species);
             loadImage(species);
         }
-        
-        
     });
 }
+
 
 /** Uses ebird API to get nearby recent sightings **/
 function getData(species) {
@@ -123,8 +114,7 @@ function getData(species) {
     let myHeaders = new Headers();
     
     let url = `https://api.ebird.org/v2/data/obs/geo/recent?back=30&lat=${a.location.center.lat}&lng=${a.location.center.lng}`
-   // let url = `https://api.ebird.org/v2/data/obs/${myLoc}/recent/?back=30`;
-   //let url = `https://api.ebird.org/v2/data/obs/${myLoc}/historic/2010/11/30`
+
     myHeaders.append("X-eBirdApiToken", myKey);
     const requestOptions = {
         method: 'GET',
@@ -149,9 +139,9 @@ function getData(species) {
         .catch(error => console.log('error', error));
 }
 
+
 /** Filters data returned from ebird API call **/
 function processData(data) {
-   // console.log(data);
     let birdData = [];
     
     for (let j of data) {
@@ -162,9 +152,9 @@ function processData(data) {
             }
         }       
     }
-
     a.data.birds = birdData;
 }
+
 
 /** Creates markers for data stored in a.data.birds **/
 function displayBirds() {
@@ -176,10 +166,9 @@ function displayBirds() {
         let marker = L.circleMarker(latlng, {radius:5, color: 'rgb(102, 51, 0)', fillOpacity:.4, weight: 1});
         marker.bindTooltip(`${j.comName} <br> Count: ${j.howMany}`).openTooltip();
         a.layers.api_markers.addLayer(marker).addTo(a.map.placed);
-  
     }
-
 }
+
 
 /** Opens and stores county boundary data file **/
 function getCountyData() {
@@ -201,17 +190,17 @@ function getCountyData() {
         
 }
 
+
 /** Finds file info for selected species **/
 function getBirds(species) {
-   // console.log(species)
     if(species == null) {
         species = birds[0];
     }
     fname = hawks[species].file;
-    getSpeciesData(fname, species); 
-    //fetchBirdPoints(species);  
+    getSpeciesData(fname, species);   
     getCsvData(species);
 }
+
 
 /** Opens and stores bird data files **/
 function getSpeciesData(fname, code) {
@@ -230,7 +219,6 @@ function getSpeciesData(fname, code) {
 }
 
 function fetchBirdPoints(code) {
-    //console.log(hawks[code].birdFile)
     fetch(`data/${hawks[code].birdFile}`)
     .then(function(data){
         return data.json();
@@ -243,6 +231,7 @@ function fetchBirdPoints(code) {
     }); // end fetch and promise chain
 }
 
+
 /** Assigns breaks for bird data counts **/
 function processFileData(code) {
     const counts = [];
@@ -252,23 +241,12 @@ function processFileData(code) {
     });
     a.data[code].features.forEach(function(county) {
         counts.push(county.properties.NUMPOINTS);
-       // sum = sum + county.properties.NUMPOINTS;
-        //counts.push(Number(county.properties.NUMPOINTS/county.properties.area));       
     });
-
-    /* for(i=0; i<counts; i++) {
-        counts[i] = parseInt(counts[i]/sum);
-    } */
-      //console.log(counts);
-    //  var breaks = chroma.limits(counts, 'e', 5);
-
-     /* var colorize = chroma.scale(chroma.brewer.YlGn)
-                           .classes(breaks)
-                           .mode('lab'); */
                            
     drawMap(code);
     drawLegend(code);
 }
+
 
 /** **/
 function drawMap(code) { 
@@ -302,10 +280,10 @@ function drawMap(code) {
             });
             a.layers.totalPointLayer.addLayer(layer);
         }
-      }).addTo(a.map.placed);
-     // updateMap(pointLayer, code);
+      }).addTo(a.map.placed);;
      updateMap(dataLayer, code);
 }
+
 
 //function updateMap(pointLayer, code) {
 function updateMap(dataLayer, code) {
@@ -313,9 +291,7 @@ function updateMap(dataLayer, code) {
     dataLayer.eachLayer(function(layer) {
         const props = layer.feature.properties;
         const coords = layer.feature.geometry.coordinates;
-        layer.setStyle({
-       // fillColor: colorize(Number(props.NUMPOINTS))
-        });
+
         let county = props.COUNTY_NAME.toLowerCase();
         county = county.replace(county[0], county[0].toUpperCase());
         let tooltipInfo = `<b>${county} County</b><br><b>${hawks[code].name}</b><br><b>Total Observations: ${props.NUMPOINTS}</b>`;
@@ -334,6 +310,7 @@ function updateMap(dataLayer, code) {
     a.map.placed.setView(a.map.options.center, a.map.options.zoom);
 }
 
+
 function drawCounties() {
    // console.log(a.data.counties)
     a.layers.countyLayer = L.geoJson(a.data.counties, {
@@ -348,26 +325,23 @@ function drawCounties() {
    
 }
 
+
 function addBirdPoints(code, county, countyName, coords) {
     a.view.current = 'county';
     let legendText = `<h4>${hawks[code].name} - ${countyName} County</h4><div class="county-circle"></div><div class="legend-label">Individual observations</div>`;
     updateLegend(legendText);
-    //removeLegend();
     let feat = hawks[code].data.data;
     let center;
     a.layers.markers = L.layerGroup();
-   // console.log(feat);
+ 
     for (let j of feat) {
-     //   console.log(county)
+
         if(j['COUNTY CODE'] == county) {
-          //  console.log(j.properties['COUNTY CODE'])
+    
             let latlng = L.latLng(makeRandom(j.LATITUDE), makeRandom(j.LONGITUDE));
 
             let marker = L.circleMarker(latlng, {radius:5, color: 'rgb(102, 51, 0)', fillOpacity:.4, weight: 1});
-            //marker.bindTooltip(`${j.comName} <br> Count: ${j.howMany}`).openTooltip();
             a.layers.markers.addLayer(marker).addTo(a.map.placed);
-            //change this to do a look up to set to county center
-           //center = [j.LATITUDE, j.LONGITUDE];
             
             let tooltipInfo = `<b>${j['COMMON NAME']}</b><br><b>Observation date: </b>${j['OBSERVATION DATE'].toLocaleString()}<br><b>Observer ID: </b>${j['OBSERVER ID']}`;
                           
@@ -378,14 +352,15 @@ function addBirdPoints(code, county, countyName, coords) {
         }
     }
     center = [coords[1], coords[0]];
-    a.map.placed.setView(center, a.map.options.zoom + 3);
-   
+    a.map.placed.setView(center, a.map.options.zoom + 2.5); 
 }
+
 
 function makeRandom(coord) {
     const sign = Math.random() < 0.5 ? -1 : 1;
     return Number(coord) + (Math.random() * 0.001 * sign);
 }
+
 
 function getCsvData(code) { 
     Papa.parse(`data/${hawks[code].birdFile}`, {
@@ -397,6 +372,7 @@ function getCsvData(code) {
     });    
 }
 
+
 /** Removes layers to display point location map **/
 function clearTotals() {
     a.layers.totalPointLayer.eachLayer(function (layer) { 
@@ -404,6 +380,7 @@ function clearTotals() {
         
     });
 }
+
 
 function clearMap() {
     if(a.view.current == 'totals') {
@@ -416,8 +393,8 @@ function clearMap() {
     }
 }
 
+
 function clearCountyMarkers(l) {
-    //console.log(a.layers.markers)
     if(l != null) {
         console.log("remove bird markers")
         l.eachLayer(function (layer) {
@@ -426,6 +403,7 @@ function clearCountyMarkers(l) {
         });
     }
 }
+
     
 function clearLocationMarker() {
     if(a.layers.marker != null) {
@@ -434,25 +412,6 @@ function clearLocationMarker() {
     }
 }
 
-    
-
-    /* a.map.placed.eachLayer(function(layer) {
-        console.log(layer._leaflet_id)
-        console.log(a.ids)
-        for(let i=0; i < a.ids.length; i++) {
-            if(layer._leaflet_id == a.ids[i]) {
-                a.map.placed.removeLayer(layer);
-            }
-        }
-    });   
-    */
-    
-    /* a.map.placed.eachLayer(function(layer) {
-        if(layer._leaflet_id != 70 && layer._leaflet_id != 26) {
-            a.map.placed.removeLayer(layer);
-        }
-    }); 
-}*/
 
 /** Switches image on dropdown change **/
 function loadImage(code) {
@@ -465,6 +424,7 @@ function loadImage(code) {
     let info = document.querySelector("#bird-des");
     info.innerHTML = `${hawks[code].info}`;
 }
+
 
 function drawLegend(code) {
     let legendText = `<h3>${hawks[code].name}</h3><div class="legend-circle"></div><div class="legend-label">Observation count by county</div>`;
@@ -483,30 +443,14 @@ function drawLegend(code) {
     } else {
         updateLegend(legendText);
     }
-    
-
 }
+
 
 function updateLegend(text) {
     const legend = document.querySelector('.legend');
       legend.innerHTML = text;
 }
 
-/* function updateLegend(breaks, colorize, code) {
-    const legend = document.querySelector('.legend');
-      legend.innerHTML = `<h3>${hawks[code].name}</h3><ul>`;
-      
-      for (let i=0; i < breaks.length - 1; i++) {
-        const color = colorize(breaks[i], breaks);
-        const classRange = `<li><span style="background:${color}"></span>
-          ${parseInt(breaks[i])} &ndash;
-          ${parseInt(breaks[i+1])} </li>`;
-
-          legend.innerHTML += classRange;
-      }
-
-      legend.innerHTML += "</ul>";
-} */
 
 function removeLegend() {
     const legend = document.querySelector('.legend');
@@ -514,6 +458,7 @@ function removeLegend() {
         a.map.placed.removeControl(legend);
     }   
 }
+
 
 function getRadius(area) {
     var radius = Math.sqrt(area/Math.PI);
