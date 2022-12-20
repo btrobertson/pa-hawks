@@ -350,7 +350,7 @@ function drawCounties() {
 
 function addBirdPoints(code, county, countyName, coords) {
     a.view.current = 'county';
-    let legendText = `<h3>${hawks[code].name} - ${countyName} County</h3><div class="county-circle"></div><div class="legend-label">Individual observations</div>`;
+    let legendText = `<h4>${hawks[code].name} - ${countyName} County</h4><div class="county-circle"></div><div class="legend-label">Individual observations</div>`;
     updateLegend(legendText);
     //removeLegend();
     let feat = hawks[code].data.data;
@@ -457,10 +457,13 @@ function clearLocationMarker() {
 /** Switches image on dropdown change **/
 function loadImage(code) {
     let imgDiv = document.querySelector("#bird-img");
-    imgDiv.innerHTML = `<img src=${hawks[code].image}><p>${hawks[code].imageAttr}</p>`;
+    imgDiv.innerHTML = `<img src=${hawks[code].image}><p  class="bird-attr">Image by: ${hawks[code].imageAttr}</p>`;
 
     let bname = document.querySelector("#bird-name");
     bname.innerHTML = `<h2>${hawks[code].name}</h2>`;
+
+    let info = document.querySelector("#bird-des");
+    info.innerHTML = `${hawks[code].info}`;
 }
 
 function drawLegend(code) {

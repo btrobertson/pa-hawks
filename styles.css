@@ -28,6 +28,11 @@ h3 {
     margin-bottom: 5px;
 }
 
+h4 {
+    font-size: 1.2em;
+    margin-bottom: 5px;
+}
+
 
 a {
     color: #fff;
@@ -70,12 +75,13 @@ li {
 #bird-img img {
     width: 100%;
 }
-/* header {
-    height: 100px;
-} */
+
+.bird-attr {
+    font-size: .8em;
+}
 
 .legend {
-    padding: 6px 8px;
+    padding: 10px;
     font-size: 1.1em;
     background: rgb(213, 232, 235, .8);
   
@@ -97,7 +103,7 @@ li {
 
 .legend-circle {
     border: 2px #32814c solid;
-    background-color: rgba(50, 129, 76, .8);
+    background-color: rgba(50, 129, 76, .4);
 }
 
 .county-circle {
@@ -112,10 +118,16 @@ li {
 footer {
     height: 50px;
     background-color:  #0e2516; 
+    position: relative;
 }
 
 footer ul {
     font-size: 0.8rem;
+    color:#e6e6e6;
+}
+
+footer a:hover {
+    color: #f2f2f2;
 }
 
 aside {
