@@ -16,8 +16,9 @@ function createMap() {
 
 function locateUI() {
    // a.buttons.locate.placed = document.querySelector(a.buttons.locate.id);
+ 
     a.location.info = document.querySelector(a.location.feedBack);
-    
+
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(function (x) {
             a.location.current = [x.coords.latitude, x.coords.longitude];
@@ -41,7 +42,8 @@ function locateUI() {
 
 function geoLocate() {
     //a.buttons.locate.placed.innerHTML = "Locating...";
-    a.location.feedBack.innerHTML = "Locating...";
+    
+    //a.location.feedBack.innerHTML = "Locating...";
     let hiAcc = false;
     if(L.Browser.mobile) {
         hiAcc = true;
@@ -59,7 +61,7 @@ function geoLocate() {
         if (n == 5) {
             clearInterval(timer);
             a.location.center = bnds.getCenter();
-            a.location.feedBack.innerHTML = "Location found";
+            document.querySelector('#locateFeedback').innerHTML = "Location found";
             drawMapOnLocation();
         }
     };
@@ -98,12 +100,14 @@ function updateData() {
 
         if(species == 'obs') {
             //a.view.current = 'local'; 
+            document.querySelector('#locateFeedback').innerHTML = "Locating...";
             geoLocate();
              
            // updateData();
 
         } else {         
-          //  a.view.current = 'totals'; 
+          //  a.view.current = 'totals';
+          document.querySelector('#locateFeedback').innerHTML = ""; 
             getBirds(species);
             loadImage(species);
         }
